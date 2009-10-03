@@ -1,3 +1,5 @@
+## -*- sh -*-
+
 # Returns true if command is in path.
 exists() {
     local IFS=: element

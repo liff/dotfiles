@@ -22,12 +22,10 @@ choose() {
     return 1
 }
 
-# Returns true if terminal supports colors.
-color_support() {
-    # Assume Linux if /usr/share/terminfo exists. dunno if this is correct
-    if [ "$TERM" = "xterm-color" ] || [ -d /usr/share/terminfo ]; then
-	return 0
-    else
-	return 1
-    fi
+# Appends the argument to path if the directory exists
+add_to_path_if_exists() {
+    local path
+    for path in "$@"; do
+	[ -d "$1" ] && export PATH="${PATH}:${1}"
+    done
 }

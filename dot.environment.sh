@@ -1,11 +1,8 @@
 ## -*- sh -*-
 
 ### Load helper functions
-. ~/.funcs.decl.sh
+. ~/.funcs.decl
 
-
-### Set environment variables
-[ -d ~/bin ] && export PATH=$PATH:~/bin
 
 # don't put duplicate or same successive entries in the history
 export HISTCONTROL=ignoredups:ignoreboth
@@ -31,9 +28,17 @@ fi
 exists lesspipe && eval $(lesspipe)
 exists dircolors && eval $(dircolors --bourne-shell)
 
+# conditionally add some common paths
+add_to_path_if_exists \
+    $HOME/bin \
+    $HOME/.cabal/bin \
+    /var/lib/gems/1.8/bin \
+    /opt/ghc/bin
+
+
 # apply host-specific settings
 [ -f ~/.environment.local ] && . ~/.environment.local
 
 
 ### Clean up
-. ~/.funcs.clean.sh
+. ~/.funcs.clean

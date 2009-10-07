@@ -1,3 +1,3 @@
 ## -*- sh -*-
 
-unset exists choose color_support
+unset exists choose

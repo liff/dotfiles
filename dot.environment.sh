@@ -35,6 +35,11 @@ add_to_path_if_exists \
     /var/lib/gems/1.8/bin \
     /opt/ghc/bin
 
+# java likes to have a home
+if [ -L /etc/alternatives/java ]; then
+    # there may be a neater way to do this but i don't care atm
+    export JAVA_HOME=$(dirname $(dirname $(dirname $(readlink /etc/alternatives/java))))
+fi
 
 # apply host-specific settings
 [ -f ~/.environment.local ] && . ~/.environment.local

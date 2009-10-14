@@ -5,7 +5,7 @@
 
 
 ## load helper functions
-. ~/.funcs.decl.sh
+. ~/.funcs.decl
 
 ## set bash options
 set -o notify
@@ -47,12 +47,20 @@ esac
 # colourized prompt
 if [ $UID -eq 0 ]; then
     # ROOT prompt (sudo, etc)
-    PS1='\[\e[31m\]\u\[\e[0m\]@\[\e[36m\]\h\[\e[0m\]:\[\e[34m\]\w\[\e[35m\]$(__git_ps1 "(%s)")\[\e[33m\]\$\[\e[m\] '
+    if logged_in_remotely; then
+        PS1='\[\e[31m\]\u\[\e[m\]@\[\e[1;36m\]\h\[\e[m\]:\[\e[34m\]\w\[\e[35m\]$(__git_ps1 "(%s)")\[\e[33m\]\$\[\e[m\] '
+    else
+        PS1='\[\e[31m\]\u\[\e[m\]@\[\e[36m\]\h\[\e[m\]:\[\e[34m\]\w\[\e[35m\]$(__git_ps1 "(%s)")\[\e[33m\]\$\[\e[m\] '
+    fi
 else
     # normal prompt
-    PS1='\[\e[32m\]\u\[\e[0m\]@\[\e[36m\]\h\[\e[0m\]:\[\e[34m\]\w\[\e[35m\]$(__git_ps1 "(%s)")\[\e[33m\]\$\[\e[m\] '
+    if logged_in_remotely; then
+        PS1='\[\e[32m\]\u\[\e[m\]@\[\e[1;36m\]\h\[\e[m\]:\[\e[34m\]\w\[\e[35m\]$(__git_ps1 "(%s)")\[\e[33m\]>\[\e[m\] '
+    else
+        PS1='\[\e[32m\]\u\[\e[m\]@\[\e[36m\]\h\[\e[m\]:\[\e[34m\]\w\[\e[35m\]$(__git_ps1 "(%s)")\[\e[33m\]>\[\e[m\] '
+    fi
 fi
 
 
 ## clean up
-. ~/.funcs.clean.sh
+. ~/.funcs.clean

@@ -26,6 +26,11 @@ choose() {
 add_to_path_if_exists() {
     local path
     for path in "$@"; do
-	[ -d "$1" ] && export PATH="${PATH}:${1}"
+	[ -d "$path" ] && export PATH="${PATH}:${path}"
     done
 }
+
+logged_in_remotely() {
+    test -n "$SSH_TTY"
+}
+

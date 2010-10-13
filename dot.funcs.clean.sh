@@ -1,3 +1,3 @@
 ## -*- sh -*-
 
-unset exists choose add_to_path_if_exist logged_in_remotely
+unset exists choose append_to_path_if_exist prepend_to_path_if_exist logged_in_remotely

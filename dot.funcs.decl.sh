@@ -23,10 +23,17 @@ choose() {
 }
 
 # Appends the argument to path if the directory exists
-add_to_path_if_exists() {
-    local path
-    for path in "$@"; do
-	[ -d "$path" ] && export PATH="${PATH}:${path}"
+append_to_path_if_exists() {
+    local dir
+    for dir in "$@"; do
+	[ -d "$dir" ] && export PATH="${PATH}:${dir}"
+    done
+}
+
+prepend_to_path_if_exists() {
+    local dir
+    for dir in "$@"; do
+        [ -d "$dir" ] && export PATH="${dir}:${PATH}"
     done
 }
 

@@ -31,10 +31,11 @@ alias fgrep="fgrep --color=auto"
 alias egrep="egrep --color=auto"
 alias cgrep="grep --line-number --color=auto --exclude-dir=.{svn,git} --exclude='*~' --exclude='*.log' --recursive --binary-files=without-match"
 alias gdb="gdb --quiet --tui"
+alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
 
 
 ## bash completion
-[ -f /etc/bash_completion ] && . /etc/bash_completion
+[ -f /etc/bash_completion ] && ! shopt -oq posix && . /etc/bash_completion
 
 
 ## set prompt

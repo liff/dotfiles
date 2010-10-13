@@ -30,6 +30,7 @@ exists dircolors && eval $(dircolors --bourne-shell)
 
 # conditionally add some common paths
 prepend_to_path_if_exists \
+    /opt/scala/bin \
     /var/lib/gems/1.8/bin \
     /var/lib/gems/1.9.1/bin \
     $HOME/.cabal/bin \

@@ -18,7 +18,7 @@ fi
 # choose a preferred browser
 if [ ! -z "$DISPLAY" ]; then
     # graphical
-    export BROWSER=$(choose google-chrome firefox links elinks)
+    export BROWSER=$(choose google-chrome chromium-browser firefox links elinks)
 else
     # text-mode
     export BROWSER=$(choose elinks links lynx)
@@ -32,6 +32,7 @@ exists dircolors && eval $(dircolors --bourne-shell)
 add_to_path_if_exists \
     $HOME/bin \
     $HOME/.cabal/bin \
+    /var/lib/gems/1.9.1/bin \
     /var/lib/gems/1.8/bin \
     /opt/ghc/bin
 

@@ -38,7 +38,8 @@ prepend_to_path_if_exists \
 # java likes to have a home
 if [ -L /etc/alternatives/java ]; then
     # there may be a neater way to do this but i don't care atm
-    export JAVA_HOME=$(dirname $(dirname $(dirname $(readlink /etc/alternatives/java))))
+    [ -z "$JAVA_HOME" ] && export JAVA_HOME=$(dirname $(dirname $(dirname $(readlink /etc/alternatives/java))))
+    [ -z "$JDK_HOME" ] && export JDK_HOME="$JAVA_HOME"
 fi
 
 # apply host-specific settings

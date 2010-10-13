@@ -29,12 +29,11 @@ exists lesspipe && eval $(lesspipe)
 exists dircolors && eval $(dircolors --bourne-shell)
 
 # conditionally add some common paths
-add_to_path_if_exists \
-    $HOME/bin \
-    $HOME/.cabal/bin \
-    /var/lib/gems/1.9.1/bin \
+prepend_to_path_if_exists \
     /var/lib/gems/1.8/bin \
-    /opt/ghc/bin
+    /var/lib/gems/1.9.1/bin \
+    $HOME/.cabal/bin \
+    $HOME/bin
 
 # java likes to have a home
 if [ -L /etc/alternatives/java ]; then

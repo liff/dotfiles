@@ -1,8 +1,11 @@
+;;; This was installed by package-install.el.
 ;;; This provides support for the package system and
 ;;; interfacing with ELPA, the package archive.
 ;;; Move this code earlier if you want to reference
 ;;; packages in your .emacs.
-(when (load (expand-file-name "~/.emacs.d/elpa/package.el"))
+(when
+    (load
+     (expand-file-name "~/.emacs.d/elpa/package.el"))
   (package-initialize))
 
 ;;; Set up load path
@@ -12,6 +15,7 @@
 (add-to-list 'load-path (concat (getenv "HOME") "/.emacs.d/lisp/scala-mode"))
 (add-to-list 'load-path (concat (getenv "HOME") "/.cabal/share/scion-0.1.0.2/emacs"))
 
+(load-file "~/.emacs.d/lisp/sbt.el")
 ;; Load and configure CEDET
 (load-file "~/.emacs.d/lisp/cedet-1.0pre6/common/cedet.el")
 (semantic-load-enable-excessive-code-helpers)
@@ -51,6 +55,11 @@
   "Kill current buffer, no questions asked"
   (interactive)
   (kill-buffer (current-buffer)))
+
+(defun ojh-compilation-finished (buffer status)
+  "Revisit tags table"
+  (unless (null tags-file-name)
+    (visit-tags-table tags-file-name)))
 
 (defun ojh-autoconf-settings ()
   "Reverse the newline and newline-and-indent in autoconf mode"
@@ -97,11 +106,9 @@
 			(if reversed (reverse (buffer-list)) (buffer-list))))))
     (unless (null buffers)
       (switch-to-buffer (car buffers)))))
-
 (defun ojh-prev-buffer ()
   (interactive)
   (ojh-pick-buffer t))
-
 (defun ojh-next-buffer ()
   (interactive)
   (bury-buffer (current-buffer))
@@ -125,7 +132,7 @@
 (global-set-key "\C-r" 'isearch-backward-regexp)
 (global-set-key "\C-\M-s" 'isearch-forward)
 (global-set-key "\C-\M-r" 'isearch-backward)
-(windmove-default-keybindings 'super)
+(windmove-default-keybindings 'hyper)
 
 
 ;;; Other
@@ -156,12 +163,13 @@
 (add-hook 'java-mode-hook     'ojh-java-settings)
 ;(add-hook 'haskell-mode-hook  'turn-on-haskell-ghci)
 (add-hook 'ruby-mode-hook     'ojh-ruby-settings)
-(add-hook 'after-save-hook    'executable-make-buffer-file-executable-if-script-p)
-;(add-to-list 'auto-mode-alist '("\\.svgz?\\'" . nxml-mode))
-;(add-to-list 'auto-mode-alist '("\\.x[ms]l\\'" . nxml-mode))
+(add-hook 'after-save-hook
+	  'executable-make-buffer-file-executable-if-script-p)
+;(add-to-list 'compilation-finish-functions 'ojh-compilation-finished)
+(add-to-list 'auto-mode-alist '("\\.svgz?\\'" . nxml-mode))
+(add-to-list 'auto-mode-alist '("\\.x[ms]l\\'" . nxml-mode))
 
 
 ;;; Load customize files
 (load "~/.emacs.d/customizations.el")
 (load "~/.emacs.d/faces.el")
-

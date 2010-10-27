@@ -1,0 +1,16 @@
+--pager
+less
+
+--type-set
+haml=.haml
+--type-set
+sass=.sass
+--type-add
+xml=.wsdl
+
+--ignore-dir
+.idea
+
+--smart-case
+
+

@@ -36,12 +36,20 @@ prepend_to_path_if_exists \
     $HOME/.cabal/bin \
     $HOME/bin
 
-# java likes to have a home
+append_to_path_if_exists \
+    /opt/jruby/bin \
+    /opt/android/tools \
+    /opt/atlassian-plugin-sdk/bin
+
+# Java likes to have a home
 if [ -L /etc/alternatives/java ]; then
     # there may be a neater way to do this but i don't care atm
     [ -z "$JAVA_HOME" ] && export JAVA_HOME=$(dirname $(dirname $(dirname $(readlink /etc/alternatives/java))))
     [ -z "$JDK_HOME" ] && export JDK_HOME="$JAVA_HOME"
 fi
+
+# Android too
+[ -d /opt/android ] && export ANDROID_HOME=/opt/android
 
 # apply host-specific settings
 [ -f ~/.environment.local ] && . ~/.environment.local

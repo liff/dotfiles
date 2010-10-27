@@ -69,5 +69,11 @@ if [[ -n "$PS1" ]]; then
     . ~/.funcs.clean
 fi
 
-[[ -s "$HOME/.rvm/scripts/rvm" ]] && . "$HOME/.rvm/scripts/rvm"
+if [[ -s "$HOME/.rvm/scripts/rvm" ]]; then
+    . "$HOME/.rvm/scripts/rvm"
+    rvm_prompt_space() {
+	[[ -n "$($HOME/.rvm/bin/rvm-prompt)" ]] && echo " "
+    }
+    PS1="\[\e[1;34m\]\$(rvm-prompt i)\[\e[0;34m\]\$(rvm-prompt v)\$(rvm_prompt_space)$PS1"
+fi
 

@@ -10,11 +10,11 @@ collect_existing_files() {
 }
 
 
-BASIC_DOTFILES=$"dot.*.sh dot.ackrc dot.colordiffrc"
+BASIC_DOTFILES=$"dot.*.sh dot.ackrc dot.colordiffrc dot.vimrc dot.irbrc.rb dot.railsrc.rb"
 
 echo "About to overwrite following files in ${HOME}:"
 for src_dotfile in $BASIC_DOTFILES; do
-    target_dotfile=$(echo $src_dotfile | sed 's/^dot\.\(.*\)\.sh$/.\1/')
+    target_dotfile=$(echo $src_dotfile | sed -r 's/^dot\.(.*)\.(sh|rb)$/.\1/')
     [ -f "$HOME/$target_dotfile" ] && echo -e '\t' $target_dotfile
 done
 
@@ -25,7 +25,7 @@ if [ "$please_continue" != "y" ]; then
 fi
 
 for src_dotfile in $BASIC_DOTFILES; do
-    target_dotfile=$(echo $src_dotfile | sed 's/^dot\.\(.*\)\.sh$/.\1/')
+    target_dotfile=$(echo $src_dotfile | sed -r 's/^dot\.(.*)\.(sh|rb)$/.\1/')
     echo "${src_dotfile} -> ${target_dotfile}"
     cp "$src_dotfile" "$HOME/$target_dotfile"
 done

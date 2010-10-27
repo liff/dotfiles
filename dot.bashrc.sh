@@ -33,6 +33,7 @@ alias cgrep="grep --line-number --color=auto --exclude-dir=.{svn,git} --exclude=
 alias ack="ack-grep"
 alias gdb="gdb --quiet --tui"
 alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
+exists colordiff && alias diff="colordiff"
 
 
 ## bash completion
@@ -66,3 +67,4 @@ fi
 
 ## clean up
 . ~/.funcs.clean
+

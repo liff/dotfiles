@@ -15,13 +15,15 @@ if [ "$VIEW" = "less" ]; then
     export LESS="-Ri -b1024"
 fi
 
-# choose a preferred browser
+# choose a preferred browser and editor
 if [ ! -z "$DISPLAY" ]; then
     # graphical
     export BROWSER=$(choose google-chrome chromium-browser firefox links elinks)
+    export EDITOR=$(choose gvim gedit)
 else
     # text-mode
     export BROWSER=$(choose elinks links lynx)
+    export EDITOR=$(choose vim vi emacs)
 fi
 
 # use lesspipe and dircolors if available
@@ -50,6 +52,7 @@ fi
 
 if [ -d /opt/maven ]; then
     export M2_HOME=/opt/maven
+    prepend_to_path_if_exists ${M2_HOME}/bin
 elif [ -d /usr/share/maven2 ]; then
     export M2_HOME=/usr/share/maven2
 fi

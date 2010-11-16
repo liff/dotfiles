@@ -12,7 +12,7 @@ if [ "$VIEW" = "less" ]; then
     # - allow less to display ANSI colors
     # - ignore case in searches
     # - use 1MB buffer size (memory is sooo cheap :)
-    export LESS="-Ri -b1024"
+    export LESS="-Ri -b1024 -X"
 fi
 
 # choose a preferred browser and editor
@@ -20,6 +20,7 @@ if [ ! -z "$DISPLAY" ]; then
     # graphical
     export BROWSER=$(choose google-chrome chromium-browser firefox links elinks)
     export EDITOR=$(choose gvim gedit)
+    [ "$EDITOR" = "gvim" ] && export EDITOR="gvim --nofork"
 else
     # text-mode
     export BROWSER=$(choose elinks links lynx)
@@ -58,7 +59,10 @@ elif [ -d /usr/share/maven2 ]; then
 fi
 
 # Android too
-[ -d /opt/android ] && export ANDROID_HOME=/opt/android
+if [ -d /opt/android ];then
+    export ANDROID_HOME=/opt/android
+    export ANDROID_SDK_ROOT=$ANDROID_HOME
+fi
 
 # apply host-specific settings
 [ -f ~/.environment.local ] && . ~/.environment.local

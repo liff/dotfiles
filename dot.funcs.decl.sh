@@ -3,9 +3,13 @@
 # Returns true if command is in path.
 exists() {
     local IFS=: element
-    for element in $PATH; do
-	[ ! -z "$element" -a -x "$element/$1" ] && return 0
-    done
+    if [ "${1:0:1}" = "/" ]; then
+        command -v "$1" &>/dev/null && return 0
+    else
+        for element in $PATH; do
+            [ ! -z "$element" -a -x "$element/$1" ] && return 0
+        done
+    fi
     return 1
 }
 
@@ -41,3 +45,14 @@ logged_in_remotely() {
     test -n "$SSH_TTY"
 }
 
+maybe_gnu_ls_options() {
+    local ls
+    if ls --version &>/dev/null; then
+        ls=ls
+    elif gls --version &>/dev/null; then
+        ls=gls
+    else
+        return 0
+    fi
+    alias ls="${ls} --format=across --classify --size --color=auto"
+}

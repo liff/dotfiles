@@ -3,7 +3,6 @@
 # no need to run this for non-interactive shell
 if [[ -n "$PS1" ]]; then
 
-
     ## load helper functions
     . ~/.funcs.decl
 
@@ -25,20 +24,22 @@ if [[ -n "$PS1" ]]; then
 
 
     ## define aliases
-    alias ls="ls --format=across --classify --size --color=auto"
+    maybe_gnu_ls_options
     alias grep="grep --color=auto"
     alias fgrep="fgrep --color=auto"
     alias egrep="egrep --color=auto"
     alias cgrep="grep --line-number --color=auto --exclude-dir=.{svn,git} --exclude='*~' --exclude='*.log' --recursive --binary-files=without-match"
-    alias ack="ack-grep"
+    exists ack-grep && \
+        alias ack="ack-grep"
     alias gdb="gdb --quiet --tui"
-    alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
+    exists notify-send && \
+        alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
     exists colordiff && alias diff="colordiff"
 
 
     ## bash completion
     [ -f /etc/bash_completion ] && ! shopt -oq posix && . /etc/bash_completion
-
+    exists brew && [ -f `brew --prefix`/etc/bash_completion ] && . `brew --prefix`/etc/bash_completion
 
     ## set prompt
 
@@ -76,4 +77,3 @@ if [[ -s "$HOME/.rvm/scripts/rvm" ]]; then
     }
     PS1="\[\e[1;34m\]\$(rvm-prompt i)\[\e[0;34m\]\$(rvm-prompt v)\$(rvm_prompt_space)$PS1"
 fi
-

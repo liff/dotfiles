@@ -1,3 +1,7 @@
+if has("syntax")
+  syntax on
+end
+
 if has("autocmd")
   filetype plugin indent on
 endif

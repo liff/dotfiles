@@ -2,4 +2,5 @@
 
 My configuration files for bash, Emacs, etc.
 
-Currently only work on Linux.
+Works on Linux and OS X 10.6 with homebrew.
+

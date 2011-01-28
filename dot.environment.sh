@@ -47,6 +47,7 @@ prepend_to_path_if_exists \
 
 append_to_path_if_exists \
     /opt/android/tools \
+    /opt/android/platform-tools \
     /opt/atlassian-plugin-sdk/bin
 
 # Java likes to have a home

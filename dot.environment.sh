@@ -46,8 +46,6 @@ prepend_to_path_if_exists \
     $HOME/bin
 
 append_to_path_if_exists \
-    /opt/android/tools \
-    /opt/android/platform-tools \
     /opt/atlassian-plugin-sdk/bin
 
 # Java likes to have a home
@@ -73,12 +71,17 @@ if [ -z "$M2_HOME" ]; then
 fi
 
 # Android too
-if [ -d /opt/android ];then
-    export ANDROID_HOME=/opt/android
-    export ANDROID_SDK_ROOT="$ANDROID_HOME"
-elif exists android; then
-    export ANDROID_HOME="$(find_home android)"
-    export ANDROID_SDK_ROOT="$ANDROID_HOME"
+if [ -z "$ANDROID_HOME" ]; then
+    if [ -d /opt/android ];then
+        export ANDROID_HOME=/opt/android
+        export ANDROID_SDK_ROOT="$ANDROID_HOME"
+        append_to_path_if_exists \
+            "${ANDROID_HOME}/tools" \
+            "${ANDROID_HOME}/platform-tools"
+    elif exists android; then
+        export ANDROID_HOME="$(find_home android)"
+        export ANDROID_SDK_ROOT="$ANDROID_HOME"
+    fi
 fi
 
 # apply host-specific settings

@@ -64,18 +64,21 @@ fi
 if [ -z "$M2_HOME" ]; then
     if [ -d /opt/maven ]; then
         export M2_HOME=/opt/maven
-        prepend_to_path_if_exists ${M2_HOME}/bin
+        prepend_to_path_if_exists "${M2_HOME}/bin"
     elif [ -d /usr/share/maven2 ]; then
         export M2_HOME=/usr/share/maven2
     elif exists mvn; then
-        M2_HOME="$(mvn="$(command -v mvn)" && while [ -L "$mvn" ]; do cd $(dirname $mvn) && mvn=$(readlink $mvn || echo $mvn); done && cd .. && pwd)"
+        export M2_HOME="$(find_home mvn)"
     fi
 fi
 
 # Android too
 if [ -d /opt/android ];then
     export ANDROID_HOME=/opt/android
-    export ANDROID_SDK_ROOT=$ANDROID_HOME
+    export ANDROID_SDK_ROOT="$ANDROID_HOME"
+elif exists android; then
+    export ANDROID_HOME="$(find_home android)"
+    export ANDROID_SDK_ROOT="$ANDROID_HOME"
 fi
 
 # apply host-specific settings

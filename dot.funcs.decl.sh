@@ -56,3 +56,14 @@ maybe_gnu_ls_options() {
     fi
     alias ls="${ls} --format=across --classify --size --color=auto"
 }
+
+find_home() {
+    (cmd="$(command -v $1)" \
+    && while [ -L "$cmd" ]; do \
+        cd "$(dirname $cmd)" \
+	&& cmd="$(readlink $(basename $cmd))"; \
+    done \
+    && cd $(dirname $cmd)/.. \
+    && pwd)
+}
+

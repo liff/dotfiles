@@ -15,7 +15,7 @@ proper_dot_filename() {
     echo ${no_ext#dot}
 }
 
-BASIC_DOTFILES=$"dot.*.sh dot.*.rb dot.ackrc dot.colordiffrc dot.vimrc"
+BASIC_DOTFILES=$"dot.*.sh dot.*.rb dot.ackrc dot.colordiffrc dot.vimrc dot.inputrc"
 
 echo "About to overwrite following files:"
 for src_dotfile in $BASIC_DOTFILES; do

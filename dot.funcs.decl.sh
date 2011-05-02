@@ -3,7 +3,7 @@
 # Returns true if command is in path.
 exists() {
     local IFS=: element
-    if [ "${1:0:1}" = "/" ]; then
+    if [ "${1#/}" != "$1" ]; then
         command -v "$1" &>/dev/null && return 0
     else
         for element in $PATH; do

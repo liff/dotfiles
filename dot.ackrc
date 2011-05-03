@@ -7,10 +7,10 @@ haml=.haml
 sass=.sass
 --type-add
 xml=.wsdl
+--type-set
+puppet=.pp
 
 --ignore-dir
 .idea
 
 --smart-case
-
-

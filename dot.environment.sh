@@ -84,6 +84,9 @@ if [ -z "$ANDROID_HOME" ]; then
     fi
 fi
 
+# Store Rubinius cache files in /tmp
+export RBXOPT="-Xrbc.db=/tmp/rbx-`whoami` $RBXOPT"
+
 # apply host-specific settings
 [ -f ~/.environment.local ] && . ~/.environment.local
 

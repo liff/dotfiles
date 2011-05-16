@@ -35,6 +35,8 @@ if [[ -n "$PS1" ]]; then
     exists notify-send && \
         alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
     exists colordiff && alias diff="colordiff"
+    test -d /opt/RubyMine && \
+        alias rmspork='RUBYLIB=/opt/RubyMine/rb/testing/patch/common:/opt/RubyMine/rb/testing/patch/bdd:/opt/RubyMine/rb/testing/patch/testunit spork'
 
 
     ## bash completion
@@ -84,5 +86,5 @@ if [ -n "$rvm_version" ]; then
     rvm_prompt_space() {
 	[[ -n "$(rvm-prompt)" ]] && echo " "
     }
-    PS1="\[\e[1;34m\]\$(rvm-prompt i)\[\e[0;34m\]\$(rvm-prompt v)\$(rvm_prompt_space)$PS1"
+    PS1="\[\e[1;34m\]\$(rvm-prompt i)\[\e[0;34m\]\$(rvm-prompt v)\[\e[0;31m\]\$(rvm-prompt g)\$(rvm_prompt_space)$PS1"
 fi

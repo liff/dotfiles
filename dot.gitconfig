@@ -1,0 +1,8 @@
+[core]
+	pager = less -XF
+	editor = vim
+[color]
+	ui = auto
+[diff]
+	tool = vimdiff
+

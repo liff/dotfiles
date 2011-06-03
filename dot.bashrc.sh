@@ -37,6 +37,7 @@ if [[ -n "$PS1" ]]; then
     exists colordiff && alias diff="colordiff"
     test -d /opt/RubyMine && \
         alias rmspork='RUBYLIB=/opt/RubyMine/rb/testing/patch/common:/opt/RubyMine/rb/testing/patch/bdd:/opt/RubyMine/rb/testing/patch/testunit spork'
+    alias bex="bundle exec"
 
 
     ## bash completion

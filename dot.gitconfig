@@ -5,4 +5,10 @@
 	ui = auto
 [diff]
 	tool = vimdiff
+[alias]
+	st = status -bs
+	bs = branch -av
+	pristine = clean -xfd
+[apply]
+	whitespace = error
 

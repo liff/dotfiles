@@ -9,23 +9,22 @@
 # don't put duplicate or same successive entries in the history
 export HISTCONTROL=ignoredups:ignoreboth
 
-export VIEW=$(choose less more pg)
-if [ "$VIEW" = "less" ]; then
-    # - allow less to display ANSI colors
-    # - ignore case in searches
-    # - use 1MB buffer size (memory is sooo cheap :)
-    export LESS="-Ri -b1024 -X"
-fi
+export VIEW=$(choose view less most more pg)
+export PAGER=$(choose vimpager less most more pg)
+# - allow less to display ANSI colors
+# - ignore case in searches
+# - use 1MB buffer size (memory is sooo cheap :)
+export LESS="-Ri -b1024 -X"
 
 # choose a preferred browser and editor
 if [ ! -z "$DISPLAY" ]; then
     # graphical
     if [ "$(uname)" = "Darwin" ]; then
         export BROWSER=open
-        export EDITOR=$(choose vim)
+        export EDITOR=$(choose vim vi)
     else
-        export BROWSER=$(choose gnome-open google-chrome chromium-browser firefox links elinks)
-        export EDITOR=$(choose gedit gvim)
+        export BROWSER=$(choose xdg-open gnome-open google-chrome chromium-browser firefox links elinks)
+        export EDITOR=$(choose gedit gvim vim)
     fi
     [ "$EDITOR" = "gvim" ] && export EDITOR="gvim --nofork"
 else
@@ -52,6 +51,8 @@ append_to_path_if_exists \
 if [ -z "$JAVA_HOME" ]; then
     if [ -d /Library/Java/Home ]; then
         export JAVA_HOME=/Library/Java/Home
+    elif [ -d /opt/java ]; then
+        export JAVA_HOME=/opt/java
     elif [ -L /etc/alternatives/java ]; then
         # there may be a neater way to do this but i don't care atm
         export JAVA_HOME="$(dirname $(dirname $(dirname $(readlink /etc/alternatives/java))))"
@@ -86,6 +87,12 @@ fi
 
 # Store Rubinius cache files in /tmp
 export RBXOPT="-Xrbc.db=/tmp/rbx-`whoami` $RBXOPT"
+
+if [ -d "$HOME/.ec2" ]; then
+    export EC2_PRIVATE_KEY=$HOME/.ec2/private_key.pem
+    export EC2_CERT=$HOME/.ec2/certificate.pem
+    export EC2_URL=https://eu-west-1.ec2.amazonaws.com
+fi
 
 # apply host-specific settings
 [ -f ~/.environment.local ] && . ~/.environment.local

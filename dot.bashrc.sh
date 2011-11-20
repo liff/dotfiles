@@ -39,6 +39,10 @@ if [[ -n "$PS1" ]]; then
         alias rmspork='RUBYLIB=/opt/RubyMine/rb/testing/patch/common:/opt/RubyMine/rb/testing/patch/bdd:/opt/RubyMine/rb/testing/patch/testunit spork'
     alias bex="bundle exec"
 
+    if [ "$PAGER" != "less" ]; then
+        alias less=$PAGER
+	alias zless=$PAGER
+    fi
 
     ## bash completion
     [ -f /etc/bash_completion ] && ! shopt -oq posix && . /etc/bash_completion

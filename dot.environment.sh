@@ -94,6 +94,9 @@ if [ -d "$HOME/.ec2" ]; then
     export EC2_URL=https://eu-west-1.ec2.amazonaws.com
 fi
 
+# Configure Git prompt
+export GIT_PS1_SHOWDIRTYSTATE=yes
+
 # apply host-specific settings
 [ -f ~/.environment.local ] && . ~/.environment.local
 

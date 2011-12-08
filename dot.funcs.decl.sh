@@ -67,3 +67,7 @@ find_home() {
     && pwd)
 }
 
+__svn_ps1() {
+    local v=$(svnversion)
+    [ "$v" != "exported" ] && echo "(${v})"
+}

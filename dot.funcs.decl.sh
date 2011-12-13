@@ -67,7 +67,13 @@ find_home() {
     && pwd)
 }
 
-__svn_ps1() {
-    local v=$(svnversion)
-    [ "$v" != "exported" ] && echo "(${v})"
-}
+if exists svnversion; then
+    __svn_ps1() {
+        local v=$(svnversion)
+        [ "$v" != "exported" ] && echo "(${v})"
+    }
+else
+    __svn_ps1() {
+        return 0
+    }
+fi

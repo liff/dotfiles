@@ -16,7 +16,7 @@ proper_dot_filename() {
 }
 
 different() {
-    ! cmp $1 $2
+    ! cmp $1 $2 > /dev/null
 }
 
 BASIC_DOTFILES=$"dot.*.sh dot.*.rb dot.ackrc dot.colordiffrc dot.vimrc dot.inputrc dot.gitconfig"

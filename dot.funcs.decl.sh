@@ -18,10 +18,10 @@ exists() {
 choose() {
     local alt
     for alt in "$@"; do
-	if exists $alt; then
-	    echo $alt
-	    return 0
-	fi
+    if exists $alt; then
+        echo $alt
+        return 0
+    fi
     done
     return 1
 }
@@ -30,7 +30,7 @@ choose() {
 append_to_path_if_exists() {
     local dir
     for dir in "$@"; do
-	[ -d "$dir" ] && export PATH="${PATH}:${dir}"
+        [ -d "$dir" ] && export PATH="${PATH}:${dir}"
     done
 }
 
@@ -61,7 +61,7 @@ find_home() {
     (cmd="$(command -v $1)" \
     && while [ -L "$cmd" ]; do \
         cd "$(dirname $cmd)" \
-	&& cmd="$(readlink $(basename $cmd))"; \
+        && cmd="$(readlink $(basename $cmd))"; \
     done \
     && cd $(dirname $cmd)/.. \
     && pwd)

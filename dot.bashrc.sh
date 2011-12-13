@@ -41,7 +41,7 @@ if [[ -n "$PS1" ]]; then
 
     if [ "$PAGER" != "less" ]; then
         alias less=$PAGER
-	alias zless=$PAGER
+        alias zless=$PAGER
     fi
 
     ## bash completion
@@ -94,7 +94,7 @@ fi
 
 if [ -n "$rvm_version" ]; then
     rvm_prompt_space() {
-	[[ -n "$(rvm-prompt)" ]] && echo " "
+        [[ -n "$(rvm-prompt)" ]] && echo " "
     }
     PS1="\[\e[1;34m\]\$(rvm-prompt i)\[\e[0;34m\]\$(rvm-prompt v)\[\e[0;31m\]\$(rvm-prompt g)\$(rvm_prompt_space)$PS1"
 fi

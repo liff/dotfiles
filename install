@@ -5,7 +5,7 @@ shopt -s extglob # for proper_dot_filename
 collect_existing_files() {
     local result
     for f in "$@"; do
-	[ -f $HOME/$f ] && result="$result $HOME/$f"
+        [ -f $HOME/$f ] && result="$result $HOME/$f"
     done
     echo $result
 }
@@ -39,6 +39,6 @@ maybe_remove=$(collect_existing_files .profile .bash_profile .emacs .emacs.el)
 if [ "$maybe_remove" != "" ]; then
     echo "You may want to remove or rename the following files:"
     for f in $maybe_remove; do
-	echo -e "\t$f"
+        echo -e "\t$f"
     done
 fi

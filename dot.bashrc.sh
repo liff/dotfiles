@@ -49,6 +49,9 @@ if [[ -n "$PS1" ]]; then
     exists brew && [ -f `brew --prefix`/etc/bash_completion ] && . `brew --prefix`/etc/bash_completion
 
     ## set prompt
+    if ! type __git_ps1 &>/dev/null; then
+        __git_ps1() { }
+    fi
 
     # show user/host in xterm
     case "$TERM" in

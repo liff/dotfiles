@@ -50,7 +50,9 @@ if [[ -n "$PS1" ]]; then
 
     ## set prompt
     if ! type __git_ps1 &>/dev/null; then
-        __git_ps1() { }
+        __git_ps1() {
+            return 0
+        }
     fi
 
     # show user/host in xterm

@@ -1,3 +1,4 @@
+import Data.Monoid
 import qualified Data.Map as Map
 
 import XMonad
@@ -8,17 +9,16 @@ import XMonad.Util.WindowPropertiesRE
 import XMonad.Config.Desktop
 import XMonad.Config.Gnome
 
-import XMonad.Hooks.Minimize
 import XMonad.Hooks.SetWMName
 
 import XMonad.Layout.PerWorkspace
 import XMonad.Layout.TwoPane
 import XMonad.Layout.ComboP
 import XMonad.Layout.Drawer
-import XMonad.Layout.Minimize
 
 import XMonad.Prompt
 import XMonad.Prompt.Window
+import XMonad.Prompt.RunOrRaise
 
 
 baseConfig = gnomeConfig
@@ -49,7 +49,7 @@ selectContacts       = selectIm `And` Role "contact_list"
 selectChat           = selectIm `And` Role "chat"
 
 selectSocialNetworks = ClassName "Gwibber"
-selectBrowser        = ClassName "Chromium-browser" `Or` ClassName "Firefox"
+selectBrowser        = ClassName "Chromium-browser" `Or` ClassName "Firefox" `Or` ClassName "Evince"
 selectEditor         = ClassName "Sublime_text" `Or` ClassName "jetbrains-idea-ce" `Or` Title "JetBrains RubyMine 3.2.4"
 
 selectTerminal       = ClassName "Gnome-terminal"
@@ -64,7 +64,7 @@ selectWeb       = selectBrowser
 selectCode      = selectEditor `Or` selectCodeTerminal
 selectTerminals = selectOtherTerminal
 
-socialLayout = desktopLayoutModifiers $ minimize $ combineTwoP (TwoPane (1/48) (16/24)) ircAndMail imAndSocials selectIrcOrMail
+socialLayout = desktopLayoutModifiers $ combineTwoP (TwoPane (1/48) (16/24)) ircAndMail imAndSocials selectIrcOrMail
   where
     imAndSocials = drawer `onBottom` (TwoPane (1/100) (1/2))
     drawer       = simpleDrawer (1/24) (6/24) selectChat
@@ -97,16 +97,14 @@ workspacesManagement = composeAll [
   ]
 
 myManageHook = defaultManageHook <+> unityManageHook <+> workspacesManagement <+> composeAll [
-    propertyToQuery selectMessageCompose --> doFloat
   ]
 
-myHandleEventHook = minimizeEventHook
+myHandleEventHook event = do
+  return (All True)
 
 addedKeys conf@(XConfig {XMonad.modMask = modm}) = Map.fromList [
     ((modm,               xK_g), windowPromptGoto defaultXPConfig),
-    ((modm,               xK_o), gnomeRun),
-    ((modm,               xK_i), withFocused minimizeWindow),
-    ((modm .|. shiftMask, xK_i), sendMessage RestoreNextMinimizedWin)
+    ((modm,               xK_o), runOrRaisePrompt defaultXPConfig)
   ]
 
 myKeys layout = addedKeys layout `Map.union` defaultKeys layout

@@ -39,7 +39,7 @@ if [[ -n "$PS1" ]]; then
         alias rmspork='RUBYLIB=/opt/RubyMine/rb/testing/patch/common:/opt/RubyMine/rb/testing/patch/bdd:/opt/RubyMine/rb/testing/patch/testunit spork'
     alias bex="bundle exec"
 
-    if [ "$PAGER" != "less" ]; then
+    if [ -n "$PAGER" -a "$PAGER" != "less" ]; then
         alias less=$PAGER
         alias zless=$PAGER
     fi

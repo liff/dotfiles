@@ -10,7 +10,7 @@
 export HISTCONTROL=ignoredups:ignoreboth
 
 export VIEW=$(choose view less most more pg)
-export PAGER=$(choose vimpager less most more pg)
+export PAGER=$(choose less most more pg)
 # - allow less to display ANSI colors
 # - ignore case in searches
 # - use 1MB buffer size (memory is sooo cheap :)

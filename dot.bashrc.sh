@@ -44,6 +44,8 @@ if [[ -n "$PS1" ]]; then
         alias zless=$PAGER
     fi
 
+    exists xdg-open && alias open="xdg-open"
+
     ## bash completion
     [ -f /etc/bash_completion ] && ! shopt -oq posix && . /etc/bash_completion
     exists brew && [ -f `brew --prefix`/etc/bash_completion ] && . `brew --prefix`/etc/bash_completion

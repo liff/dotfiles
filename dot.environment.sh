@@ -6,6 +6,17 @@
 
 [ "${PATH#/usr/local/bin}" = "$PATH" ] && PATH="/usr/local/bin:$(echo "$PATH" | sed 's#/usr/local/bin##;s/:://')"
 
+# conditionally add some common paths
+prepend_to_path_if_exists \
+    /opt/scala/bin \
+    /var/lib/gems/1.8/bin \
+    $HOME/.cabal/bin \
+    $HOME/bin
+
+append_to_path_if_exists \
+    /opt/atlassian-plugin-sdk/bin \
+    /opt/st2
+
 # don't put duplicate or same successive entries in the history
 export HISTCONTROL=ignoredups:ignoreboth
 
@@ -24,7 +35,7 @@ if [ ! -z "$DISPLAY" ]; then
         export EDITOR=$(choose vim vi)
     else
         export BROWSER=$(choose xdg-open gnome-open google-chrome chromium-browser firefox links elinks)
-        export EDITOR=$(choose gedit gvim vim)
+        export EDITOR=$(choose sublime_text gedit gvim vim)
     fi
     [ "$EDITOR" = "gvim" ] && export EDITOR="gvim --nofork"
 else
@@ -36,16 +47,6 @@ fi
 # use lesspipe and dircolors if available
 exists lesspipe && eval $(lesspipe)
 exists dircolors && eval $(dircolors --bourne-shell)
-
-# conditionally add some common paths
-prepend_to_path_if_exists \
-    /opt/scala/bin \
-    /var/lib/gems/1.8/bin \
-    $HOME/.cabal/bin \
-    $HOME/bin
-
-append_to_path_if_exists \
-    /opt/atlassian-plugin-sdk/bin
 
 # Java likes to have a home
 if [ -z "$JAVA_HOME" ]; then

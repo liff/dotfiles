@@ -77,3 +77,11 @@ else
         return 0
     }
 fi
+
+if [ -d ~/.m2/repository/com/h2database/h2 ]; then
+  h2shell() {
+    local version=$(basename "$(find "$HOME/.m2/repository/com/h2database/h2" -mindepth 1 -maxdepth 1 -type d | sort | tail -n 1)")
+    local h2jar="$HOME/.m2/repository/com/h2database/h2/${version}/h2-${version}.jar"
+    java -jar "$h2jar" org.h2.tools.Shell "$@"
+  }
+fi

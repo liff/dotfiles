@@ -99,4 +99,7 @@ if [ -n "$rvm_version" ]; then
         [[ -n "$(rvm-prompt)" ]] && echo " "
     }
     PS1="\[\e[1;34m\]\$(rvm-prompt i)\[\e[0;34m\]\$(rvm-prompt v)\[\e[0;31m\]\$(rvm-prompt g)\$(rvm_prompt_space)$PS1"
+    for cmd in rake rspec cap guard rackup spork thin whenever; do
+        alias $cmd="if test -r Gemfile.lock; then bundle exec ${cmd}; else command ${cmd}; fi"
+    done
 fi

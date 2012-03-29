@@ -1,5 +1,15 @@
 ## -*- sh -*-
 
+if [ -z "$rvm_version" ]; then
+    if [[ -s "${rvm_path}/scripts/rvm" ]]; then
+        . "${rvm_path}/scripts/rvm"
+    elif [[ -s "${HOME}/.rvm/scripts/rvm" ]]; then
+        . "$HOME/.rvm/scripts/rvm"
+    elif [[ -s "/usr/local/rvm/scripts/rvm" ]]; then
+        . "/usr/local/rvm/scripts/rvm"
+    fi
+fi
+
 # no need to run this for non-interactive shell
 if [[ -n "$PS1" ]]; then
 
@@ -37,7 +47,6 @@ if [[ -n "$PS1" ]]; then
     exists colordiff && alias diff="colordiff"
     test -d /opt/RubyMine && \
         alias rmspork='RUBYLIB=/opt/RubyMine/rb/testing/patch/common:/opt/RubyMine/rb/testing/patch/bdd:/opt/RubyMine/rb/testing/patch/testunit spork'
-    alias bex="bundle exec"
 
     if [ -n "$PAGER" -a "$PAGER" != "less" ]; then
         alias less=$PAGER
@@ -45,6 +54,20 @@ if [[ -n "$PS1" ]]; then
     fi
 
     exists xdg-open && alias open="xdg-open"
+
+    if exists bundle; then
+        bex() {
+            if test -r Gemfile.lock; then
+                bundle exec "$@"
+            else
+                command "$@"
+            fi
+        }
+
+        for cmd in rake rspec cap guard rackup spork thin whenever; do
+            alias $cmd="bex ${cmd}"
+        done
+    fi
 
     ## bash completion
     [ -f /etc/bash_completion ] && ! shopt -oq posix && . /etc/bash_completion
@@ -79,27 +102,13 @@ if [[ -n "$PS1" ]]; then
         fi
     fi
 
+    if [ -n "$rvm_version" ]; then
+        rvm_prompt_space() {
+            [[ -n "$(rvm-prompt)" ]] && echo " "
+        }
+        PS1="\[\e[1;34m\]\$(rvm-prompt i)\[\e[0;34m\]\$(rvm-prompt v)\[\e[0;31m\]\$(rvm-prompt g)\$(rvm_prompt_space)$PS1"
+    fi
 
     ## clean up
     . ~/.funcs.clean
-fi
-
-if [ -z "$rvm_version" ]; then
-    if [[ -s "${rvm_path}/scripts/rvm" ]]; then
-        . "${rvm_path}/scripts/rvm"
-    elif [[ -s "${HOME}/.rvm/scripts/rvm" ]]; then
-        . "$HOME/.rvm/scripts/rvm"
-    elif [[ -s "/usr/local/rvm/scripts/rvm" ]]; then
-        . "/usr/local/rvm/scripts/rvm"
-    fi
-fi
-
-if [ -n "$rvm_version" ]; then
-    rvm_prompt_space() {
-        [[ -n "$(rvm-prompt)" ]] && echo " "
-    }
-    PS1="\[\e[1;34m\]\$(rvm-prompt i)\[\e[0;34m\]\$(rvm-prompt v)\[\e[0;31m\]\$(rvm-prompt g)\$(rvm_prompt_space)$PS1"
-    for cmd in rake rspec cap guard rackup spork thin whenever; do
-        alias $cmd="if test -r Gemfile.lock; then bundle exec ${cmd}; else command ${cmd}; fi"
-    done
 fi

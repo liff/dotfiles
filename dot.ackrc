@@ -9,6 +9,10 @@ sass=.sass
 xml=.wsdl
 --type-set
 puppet=.pp
+--type-set
+coffee=.coffee
+--type-set
+citrus=.citrus
 
 --ignore-dir
 .idea

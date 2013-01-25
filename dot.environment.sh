@@ -9,13 +9,14 @@
 # conditionally add some common paths
 prepend_to_path_if_exists \
     /opt/scala/bin \
-    /var/lib/gems/1.8/bin \
     $HOME/.cabal/bin \
     $HOME/bin
 
 append_to_path_if_exists \
     /opt/atlassian-plugin-sdk/bin \
     /opt/st2
+
+exists rbenv && eval "$(rbenv init -)"
 
 # don't put duplicate or same successive entries in the history
 export HISTCONTROL=ignoredups:ignoreboth

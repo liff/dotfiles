@@ -13,7 +13,6 @@ prepend_to_path_if_exists \
     $HOME/bin
 
 append_to_path_if_exists \
-    /opt/atlassian-plugin-sdk/bin \
     /opt/st2
 
 exists rbenv && eval "$(rbenv init -)"
@@ -36,7 +35,7 @@ if [ ! -z "$DISPLAY" ]; then
         export EDITOR=$(choose vim vi)
     else
         export BROWSER=$(choose xdg-open gnome-open google-chrome chromium-browser firefox links elinks)
-        export EDITOR=$(choose sublime_text gedit gvim vim)
+        export EDITOR=$(choose vim vi)
     fi
     [ "$EDITOR" = "gvim" ] && export EDITOR="gvim --nofork"
 else
@@ -87,8 +86,8 @@ if [ -z "$ANDROID_HOME" ]; then
     fi
 fi
 
-# Store Rubinius cache files in /tmp
-export RBXOPT="-Xrbc.db=/tmp/rbx-`whoami` $RBXOPT"
+# Store Rubinius cache files in /tmp and default to 1.9 mode
+export RBXOPT="-X19 -Xrbc.db=/tmp/rbx-`whoami` $RBXOPT"
 
 if [ -d "$HOME/.ec2" ]; then
     export EC2_PRIVATE_KEY=$HOME/.ec2/private_key.pem

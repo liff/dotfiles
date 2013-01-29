@@ -4,6 +4,8 @@ less -XF
 --type-set
 haml=.haml
 --type-set
+haml=.hamlc
+--type-set
 sass=.sass
 --type-add
 xml=.wsdl
@@ -13,6 +15,10 @@ puppet=.pp
 coffee=.coffee
 --type-set
 citrus=.citrus
+--type-set
+vala=.vala
+--type-set
+builder=.builder
 
 --ignore-dir
 .idea

@@ -19,7 +19,7 @@ different() {
     ! cmp $1 $2 > /dev/null
 }
 
-BASIC_DOTFILES=$"dot.*.sh dot.*.rb dot.ackrc dot.colordiffrc dot.vimrc dot.inputrc dot.gitconfig"
+BASIC_DOTFILES=$"dot.*.sh dot.*.rb dot.ackrc dot.colordiffrc dot.vimrc dot.inputrc dot.gitconfig dot.lessfilter"
 
 echo "About to overwrite following files:"
 for src_dotfile in $BASIC_DOTFILES; do
@@ -38,6 +38,8 @@ for src_dotfile in $BASIC_DOTFILES; do
     echo "${src_dotfile} -> ${target_dotfile}"
     cp "$src_dotfile" "$target_dotfile"
 done
+
+chmod +x "$HOME/.lessfilter"
 
 maybe_remove=$(collect_existing_files .profile .bash_profile .emacs .emacs.el)
 if [ "$maybe_remove" != "" ]; then

@@ -73,6 +73,14 @@ if [[ -n "$PS1" ]]; then
     [ -f /etc/bash_completion ] && ! shopt -oq posix && . /etc/bash_completion
     exists brew && [ -f `brew --prefix`/etc/bash_completion ] && . `brew --prefix`/etc/bash_completion
 
+    ## Git prompt and completion
+    if exists brew && [ -f `brew --prefix git`/share/git-core/git-prompt.sh ]; then
+        . `brew --prefix git`/share/git-core/git-prompt.sh
+    elif [ -f /usr/share/git-core/git-prompt.sh ]; then
+        . /usr/share/git-core/git-prompt.sh
+        [ -f /usr/share/git-core/git-completion.bash ] && . /usr/share/git-core/git-completion.bash
+    fi
+
     ## set prompt
     if ! type __git_ps1 &>/dev/null; then
         __git_ps1() {
@@ -107,6 +115,8 @@ if [[ -n "$PS1" ]]; then
             [[ -n "$(rvm-prompt)" ]] && echo " "
         }
         PS1="\[\e[1;34m\]\$(rvm-prompt i)\[\e[0;34m\]\$(rvm-prompt v)\[\e[0;31m\]\$(rvm-prompt g)\$(rvm_prompt_space)$PS1"
+    elif exists rbenv; then
+        PS1="\[\e[0;34m\]\$(rbenv version-name) $PS1"
     fi
 
     ## clean up

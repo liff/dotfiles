@@ -70,7 +70,7 @@ find_home() {
 if exists svnversion; then
     __svn_ps1() {
         local v=$(svnversion)
-        [ "$v" != "exported" ] && echo "(${v})"
+        [ "$v" != "exported" -a "$v" != "Unversioned directory" ] && echo "(${v})"
     }
 else
     __svn_ps1() {

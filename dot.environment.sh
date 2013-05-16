@@ -9,12 +9,11 @@
 # conditionally add some common paths
 prepend_to_path_if_exists \
     /opt/scala/bin \
+    /var/lib/gems/1.8/bin \
     $HOME/.cabal/bin \
     $HOME/bin
 
-append_to_path_if_exists \
-    /opt/st2
-
+# Start rbenv, if installed
 exists rbenv && eval "$(rbenv init -)"
 
 # don't put duplicate or same successive entries in the history
@@ -97,6 +96,9 @@ fi
 
 # Configure Git prompt
 export GIT_PS1_SHOWDIRTYSTATE=yes
+export GIT_PS1_SHOWSTASHSTATE=yes
+export GIT_PS1_SHOWUNTRACKEDFILES=yes
+export GIT_PS1_SHOWUPSTREAM=yes
 
 # apply host-specific settings
 [ -f ~/.environment.local ] && . ~/.environment.local

@@ -88,6 +88,16 @@ if [[ -n "$PS1" ]]; then
         }
     fi
 
+    if grep '^prompt' ~/.hgrc &>/dev/null; then
+        __hg_ps1() {
+            hg prompt "$@" 2>/dev/null
+        }
+    else
+        __hg_ps1() {
+            return 0
+        }
+    fi
+
     # show user/host in xterm
     case "$TERM" in
         xterm*) PROMPT_COMMAND='echo -ne "\033]0;${USER}@${HOSTNAME}: ${PWD}\007"' ;;
@@ -97,16 +107,16 @@ if [[ -n "$PS1" ]]; then
     if [ $UID -eq 0 ]; then
         # ROOT prompt (sudo, etc)
         if logged_in_remotely; then
-            PS1='\[\e[31m\]\u\[\e[m\]@\[\e[1;36m\]\h\[\e[m\]:\[\e[34m\]\w\[\e[35m\]$(__git_ps1 "(%s)")$(__svn_ps1)\[\e[33m\]\$\[\e[m\] '
+            PS1='\[\e[31m\]\u\[\e[m\]@\[\e[1;36m\]\h\[\e[m\]:\[\e[34m\]\w\[\e[35m\]$(__git_ps1 "(%s)")$(__hg_ps1 "({branch}{status})")$(__svn_ps1)\[\e[33m\]\$\[\e[m\] '
         else
-            PS1='\[\e[31m\]\u\[\e[m\]@\[\e[36m\]\h\[\e[m\]:\[\e[34m\]\w\[\e[35m\]$(__git_ps1 "(%s)")$(__svn_ps1)\[\e[33m\]\$\[\e[m\] '
+            PS1='\[\e[31m\]\u\[\e[m\]@\[\e[36m\]\h\[\e[m\]:\[\e[34m\]\w\[\e[35m\]$(__git_ps1 "(%s)")$(__hg_ps1 "({branch}{status})")$(__svn_ps1)\[\e[33m\]\$\[\e[m\] '
         fi
     else
         # normal prompt
         if logged_in_remotely; then
-            PS1='\[\e[32m\]\u\[\e[m\]@\[\e[1;36m\]\h\[\e[m\]:\[\e[34m\]\w\[\e[35m\]$(__git_ps1 "(%s)")$(__svn_ps1)\[\e[33m\]>\[\e[m\] '
+            PS1='\[\e[32m\]\u\[\e[m\]@\[\e[1;36m\]\h\[\e[m\]:\[\e[34m\]\w\[\e[35m\]$(__git_ps1 "(%s)")$(__hg_ps1 "({branch}{status})")$(__svn_ps1)\[\e[33m\]>\[\e[m\] '
         else
-            PS1='\[\e[32m\]\u\[\e[m\]@\[\e[36m\]\h\[\e[m\]:\[\e[34m\]\w\[\e[35m\]$(__git_ps1 "(%s)")$(__svn_ps1)\[\e[33m\]>\[\e[m\] '
+            PS1='\[\e[32m\]\u\[\e[m\]@\[\e[36m\]\h\[\e[m\]:\[\e[34m\]\w\[\e[35m\]$(__git_ps1 "(%s)")$(__hg_ps1 "({branch}{status})")$(__svn_ps1)\[\e[33m\]>\[\e[m\] '
         fi
     fi
 

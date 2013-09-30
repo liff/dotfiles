@@ -1,16 +1,14 @@
 import Data.Monoid
 import Data.Map (Map)
 import qualified Data.Map as Map
+import Control.Monad (liftM)
 
 import XMonad
 import qualified XMonad.StackSet as S
-
-import XMonad.Util.WindowPropertiesRE
-
 import XMonad.Config.Desktop
 import XMonad.Config.Gnome
 
-import XMonad.Hooks.ICCCMFocus
+--import XMonad.Hooks.ICCCMFocus
 import XMonad.Hooks.SetWMName
 import XMonad.Hooks.ManageHelpers
 import XMonad.Hooks.EwmhDesktops
@@ -24,6 +22,12 @@ import XMonad.Layout.NoBorders
 import XMonad.Prompt
 import XMonad.Prompt.Window
 import XMonad.Prompt.RunOrRaise
+
+import XMonad.Util.WindowPropertiesRE
+
+
+
+role = stringProperty "WM_WINDOW_ROLE"
 
 
 -- Use GNOME configuration as base
@@ -49,60 +53,67 @@ myWorkspaces = [socialWorkspace, webWorkspace, codeWorkspace, terminalsWorkspace
 
 
 -- Selectors for applications and windows
-selectUnityPanel, selectUnityShell :: Property
-selectUnityPanel     = ClassName "Unity-2d-panel"
-selectUnityShell     = ClassName "Unity-2d-shell"
+unityPanelProperties     = ClassName "Unity-2d-panel"
+unityShellProperties     = ClassName "Unity-2d-shell"
+selectUnityPanel         = propertyToQuery unityPanelProperties
+selectUnityShell         = propertyToQuery unityShellProperties
 
-selectIrc :: Property
-selectIrc            = selectTerminal `And` Title "IRC"
+ircProperties            = terminalProperties `And` Title "IRC"
+selectIrc                = propertyToQuery ircProperties
 
-selectMail, selectMessageCompose :: Property
-selectMail           = ClassName "Thunderbird"
-selectMessageCompose = selectMail `And` Role "Msgcompose"
+mailProperties           = ClassName "Thunderbird" `Or` ClassName "evolution" `Or` ClassName "Evolution"
+selectMail               = propertyToQuery mailProperties
+selectMessageCompose     = selectMail <&&> (role =? "Msgcompose" <||> role ~? "EMsg")
 
-selectIm, selectContacts, selectChat :: Property
-selectIm             = ClassName "Empathy" `Or` ClassName "Skype"
-selectContacts       = selectIm `And` Role "contact_list"
-selectChat           = selectIm `And` (Role "chat" `Or` Role "ConversationsWindow")
+imProperties             = ClassName "Empathy" `Or` ClassName "Skype" `Or` ClassName "Pidgin"
+contactsProperties       = imProperties `And` (Role "contact_list" `Or` Role "buddy_list")
+chatProperties           = imProperties `And` (Role "chat" `Or` Role "ConversationsWindow" `Or` Role "conversation")
+selectIm                 = propertyToQuery imProperties
+selectContacts           = propertyToQuery contactsProperties
+selectChat               = propertyToQuery chatProperties
 
-selectSocialNetworks, selectBrowser, selectEditor :: Property
-selectSocialNetworks = ClassName "Gwibber"
-selectBrowser        = ClassName "Google-chrome" `Or` ClassName "Chromium-browser" `Or` ClassName "Firefox" `Or` ClassName "Evince"
-selectEditor         = ClassName "Sublime_text" `Or` ClassName "jetbrains-idea-ce" `Or` ClassName "jetbrains-rubymine" `Or` ClassName "Eclipse"
+socialNetworksProperties = ClassName "Gwibber" `Or` Title "Friends"
+browserProperties        = ClassName "Google-chrome" `Or` ClassName "Chromium-browser" `Or` ClassName "Firefox" `Or` ClassName "Evince"
+editorProperties         = ClassName "Sublime_text" `Or` ClassName "jetbrains-idea-ce" `Or` ClassName "jetbrains-rubymine" `Or` ClassName "Eclipse"
+selectSocialNetworks     = propertyToQuery socialNetworksProperties
+selectBrowser            = propertyToQuery browserProperties
+selectEditor             = propertyToQuery editorProperties
 
-selectTerminal, selectCodeTerminal, selectOtherTerminal :: Property
-selectTerminal       = ClassName "Gnome-terminal"
-selectCodeTerminal   = selectTerminal `And` Title "Code"
-selectOtherTerminal  = selectTerminal `And` Not selectIrc `And` Not selectCodeTerminal
+terminalProperties       = ClassName "Gnome-terminal"
+codeTerminalProperties   = terminalProperties `And` Title "Code"
+otherTerminalProperties  = terminalProperties `And` (Not ircProperties) `And` (Not codeTerminalProperties)
+selectTerminal           = propertyToQuery terminalProperties
+selectCodeTerminal       = propertyToQuery codeTerminalProperties
+selectOtherTerminal      = propertyToQuery otherTerminalProperties
 
-selectIrcOrMail, selectImOrSocialNetworks :: Property
-selectIrcOrMail          = selectIrc `Or` selectMail
-selectImOrSocialNetworks = selectIm `Or` selectSocialNetworks
+ircOrMailProperties          = ircProperties `Or` mailProperties
+imOrSocialNetworksProperties = imProperties `Or` socialNetworksProperties
+selectIrcOrMail              = propertyToQuery ircOrMailProperties
+selectImOrSocialNetworks     = propertyToQuery imOrSocialNetworksProperties
 
-selectSpotify, selectSonata :: Property
-selectSpotify = ClassName "Spotify"
-selectSonata = ClassName "Sonata"
+selectSpotify            = className =? "Spotify"
+selectSonata             = className =? "Sonata"
 
-selectSocial, selectWeb, selectCode, selectTerminals :: Property
-selectSocial    = selectIrcOrMail `Or` selectImOrSocialNetworks
-selectWeb       = selectBrowser
-selectCode      = selectEditor `Or` selectCodeTerminal
-selectTerminals = selectOtherTerminal
-selectMedia     = selectSpotify `Or` selectSonata
+selectSocial             = selectIrcOrMail <||> selectImOrSocialNetworks
+selectWeb                = selectBrowser
+selectCode               = selectEditor <||> selectCodeTerminal
+selectTerminals          = selectOtherTerminal
+selectMedia              = selectSpotify <||> selectSonata
 
 
 -- Layouts
-socialLayout = desktopLayoutModifiers $ combineTwoP (TwoPane (1/48) (16/24)) ircAndMail imAndSocials selectIrcOrMail
+socialLayout = desktopLayoutModifiers $
+  combineTwoP (TwoPane (1/48) (16/24)) ircAndMail imAndSocials ircOrMailProperties
   where
     imAndSocials = drawer `onBottom` (TwoPane (1/100) (1/2))
-    drawer       = simpleDrawer (1/24) (6/24) selectChat
+    drawer       = simpleDrawer (1/24) (6/24) chatProperties
     ircAndMail   = Mirror (TwoPane (1/24) (5/24))
 
 webLayout = desktopLayoutModifiers $ TwoPane (1/12) (7/12)
 
 codeLayout = desktopLayoutModifiers $ drawer `onBottom` (Tall 1 (3/100) (1/2))
   where
-    drawer = simpleDrawer (1/24) (6/24) selectCodeTerminal
+    drawer = simpleDrawer (1/24) (6/24) codeTerminalProperties
 
 terminalsLayout = defaultLayout
 
@@ -120,23 +131,23 @@ myLayout = smartBorders
 -- Management hooks
 unityManagement :: ManageHook
 unityManagement = composeAll [
-    propertyToQuery selectUnityPanel --> doIgnore,
-    propertyToQuery selectUnityShell --> doFloat
+    selectUnityPanel --> doIgnore,
+    selectUnityShell --> doFloat
   ]
 
 workspacesManagement :: ManageHook
 workspacesManagement = composeAll [
-    propertyToQuery selectSocial    --> doShift socialWorkspace,
-    propertyToQuery selectWeb       --> doShift webWorkspace,
-    propertyToQuery selectCode      --> doShift codeWorkspace,
-    propertyToQuery selectTerminals --> doShift terminalsWorkspace,
-    propertyToQuery selectMedia     --> doShift mediaWorkspace
+    selectSocial    --> doShift socialWorkspace,
+    selectWeb       --> doShift webWorkspace,
+    selectCode      --> doShift codeWorkspace,
+    selectTerminals --> doShift terminalsWorkspace,
+    selectMedia     --> doShift mediaWorkspace
   ]
 
 myManageHook :: ManageHook
 myManageHook = defaultManageHook <+> unityManagement <+> workspacesManagement <+> composeAll [
-    isFullscreen                         --> doFullFloat,
-    propertyToQuery selectMessageCompose --> doFloat
+    isFullscreen         --> doFullFloat,
+    selectMessageCompose --> doFloat
   ]
 
 
@@ -146,7 +157,8 @@ hello = liftIO $ do
   return ()
 
 myLogHook :: X ()
-myLogHook = defaultLogHook <+> hello <+> takeTopFocus
+--myLogHook = defaultLogHook <+> hello <+> takeTopFocus
+myLogHook = defaultLogHook
 -- myLogHook = takeTopFocus
 
 

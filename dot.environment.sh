@@ -11,10 +11,8 @@ prepend_to_path_if_exists \
     /opt/scala/bin \
     /var/lib/gems/1.8/bin \
     $HOME/.cabal/bin \
+    $HOME/.rbenv/bin \
     $HOME/bin
-
-# Start rbenv, if installed
-exists rbenv && eval "$(rbenv init -)"
 
 # don't put duplicate or same successive entries in the history
 export HISTCONTROL=ignoredups:ignoreboth

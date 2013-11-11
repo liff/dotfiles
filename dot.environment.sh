@@ -12,6 +12,7 @@ prepend_to_path_if_exists \
     /var/lib/gems/1.8/bin \
     $HOME/.cabal/bin \
     $HOME/.rbenv/bin \
+    /usr/lib/ccache \
     $HOME/bin
 
 # don't put duplicate or same successive entries in the history
@@ -97,6 +98,10 @@ export GIT_PS1_SHOWDIRTYSTATE=yes
 export GIT_PS1_SHOWSTASHSTATE=yes
 export GIT_PS1_SHOWUNTRACKEDFILES=yes
 export GIT_PS1_SHOWUPSTREAM=yes
+
+# Configure ccache
+export CCACHE_COMPRESS=yes
+export CCACHE_DIR=/var/tmp/ccache
 
 # apply host-specific settings
 [ -f ~/.environment.local ] && . ~/.environment.local

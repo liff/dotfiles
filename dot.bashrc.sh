@@ -126,7 +126,8 @@ if [[ -n "$PS1" ]]; then
         }
         PS1="\[\e[1;34m\]\$(rvm-prompt i)\[\e[0;34m\]\$(rvm-prompt v)\[\e[0;31m\]\$(rvm-prompt g)\$(rvm_prompt_space)$PS1"
     elif exists rbenv; then
-        eval "$(rbenv init -)"
+        # Start rbenv, if installed
+        exists rbenv && eval "$(rbenv init -)"
         PS1="\[\e[0;34m\]\$(rbenv version-name) $PS1"
     fi
 

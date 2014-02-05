@@ -10,6 +10,7 @@
 prepend_to_path_if_exists \
     /opt/scala/bin \
     /var/lib/gems/1.8/bin \
+    $HOME/.npm-global/bin \
     $HOME/.cabal/bin \
     $HOME/.rbenv/bin \
     /usr/lib/ccache \

@@ -98,27 +98,38 @@ if [[ -n "$PS1" ]]; then
         }
     fi
 
+    __ps1_char() {
+	local status=$?
+        local char='>'
+        local color="33"
+        [ $UID -eq 0 ] && char='\$'
+        [ $status -ne 0 ] && color="1;31"
+        echo -e "\[\033[${color}m\]${char}\[\033[m\]"
+    }
+
+    if logged_in_remotely; then
+      __ps1_host_color='1;36'
+    else
+      __ps1_host_color='36'
+    fi
+    if [ $UID -eq 0 ]; then
+      __ps1_username_color='31'
+    else
+      __ps1_username_color='32'
+    fi
+
+    # colourized prompt
+    __update_ps1() {
+        local char=$(__ps1_char)
+        PS1='\[\e['"${__ps1_username_color}"'m\]\u\[\e[m\]@\[\e['"${__ps1_host_color}"'m\]\h\[\e[m\]:\[\e[34m\]\w\[\e[35m\]$(__git_ps1 "(%s)")$(__hg_ps1 "({branch}{status})")$(__svn_ps1)'"${char} "
+    }
+
     # show user/host in xterm
     case "$TERM" in
         xterm*) PROMPT_COMMAND='echo -ne "\033]0;${USER}@${HOSTNAME}: ${PWD}\007"' ;;
     esac
 
-    # colourized prompt
-    if [ $UID -eq 0 ]; then
-        # ROOT prompt (sudo, etc)
-        if logged_in_remotely; then
-            PS1='\[\e[31m\]\u\[\e[m\]@\[\e[1;36m\]\h\[\e[m\]:\[\e[34m\]\w\[\e[35m\]$(__git_ps1 "(%s)")$(__hg_ps1 "({branch}{status})")$(__svn_ps1)\[\e[33m\]\$\[\e[m\] '
-        else
-            PS1='\[\e[31m\]\u\[\e[m\]@\[\e[36m\]\h\[\e[m\]:\[\e[34m\]\w\[\e[35m\]$(__git_ps1 "(%s)")$(__hg_ps1 "({branch}{status})")$(__svn_ps1)\[\e[33m\]\$\[\e[m\] '
-        fi
-    else
-        # normal prompt
-        if logged_in_remotely; then
-            PS1='\[\e[32m\]\u\[\e[m\]@\[\e[1;36m\]\h\[\e[m\]:\[\e[34m\]\w\[\e[35m\]$(__git_ps1 "(%s)")$(__hg_ps1 "({branch}{status})")$(__svn_ps1)\[\e[33m\]>\[\e[m\] '
-        else
-            PS1='\[\e[32m\]\u\[\e[m\]@\[\e[36m\]\h\[\e[m\]:\[\e[34m\]\w\[\e[35m\]$(__git_ps1 "(%s)")$(__hg_ps1 "({branch}{status})")$(__svn_ps1)\[\e[33m\]>\[\e[m\] '
-        fi
-    fi
+    PROMPT_COMMAND="__update_ps1;$PROMPT_COMMAND"
 
     if [ -n "$rvm_version" ]; then
         rvm_prompt_space() {

@@ -85,6 +85,9 @@ if [ -z "$ANDROID_HOME" ]; then
     fi
 fi
 
+# Configure Bash prompt
+export PROMPT_DIRTRIM=3
+
 # Store Rubinius cache files in /tmp
 export RBXOPT="-Xrbc.db=/tmp/rbx-`whoami` $RBXOPT"
 

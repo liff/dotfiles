@@ -98,6 +98,19 @@ if [[ -n "$PS1" ]]; then
         }
     fi
 
+    __rvm_prompt=''
+    __rbenv_prompt=''
+    if [ -n "$rvm_version" ]; then
+        rvm_prompt_space() {
+            [[ -n "$(rvm-prompt)" ]] && echo " "
+        }
+        __rvm_prompt="\[\e[1;34m\]\$(rvm-prompt i)\[\e[0;34m\]\$(rvm-prompt v)\[\e[0;31m\]\$(rvm-prompt g)\$(rvm_prompt_space)"
+    elif exists rbenv; then
+        # Start rbenv, if installed
+        exists rbenv && eval "$(rbenv init -)"
+        __rbenv_prompt="\[\e[0;34m\]\$(rbenv version-name)"
+    fi
+
     __ps1_char() {
 	local status=$?
         local char='>'
@@ -122,6 +135,8 @@ if [[ -n "$PS1" ]]; then
     __update_ps1() {
         local char=$(__ps1_char)
         PS1='\[\e['"${__ps1_username_color}"'m\]\u\[\e[m\]@\[\e['"${__ps1_host_color}"'m\]\h\[\e[m\]:\[\e[34m\]\w\[\e[35m\]$(__git_ps1 "(%s)")$(__hg_ps1 "({branch}{status})")$(__svn_ps1)'"${char} "
+        [ -n "$__rbenv_prompt" ] && PS1="${__rbenv_prompt} $PS1"
+        [ -n "$__rvm_prompt" ] && PS1="${__rvm_prompt} $PS1"
     }
 
     # show user/host in xterm
@@ -130,17 +145,6 @@ if [[ -n "$PS1" ]]; then
     esac
 
     PROMPT_COMMAND="__update_ps1;$PROMPT_COMMAND"
-
-    if [ -n "$rvm_version" ]; then
-        rvm_prompt_space() {
-            [[ -n "$(rvm-prompt)" ]] && echo " "
-        }
-        PS1="\[\e[1;34m\]\$(rvm-prompt i)\[\e[0;34m\]\$(rvm-prompt v)\[\e[0;31m\]\$(rvm-prompt g)\$(rvm_prompt_space)$PS1"
-    elif exists rbenv; then
-        # Start rbenv, if installed
-        exists rbenv && eval "$(rbenv init -)"
-        PS1="\[\e[0;34m\]\$(rbenv version-name) $PS1"
-    fi
 
     ## clean up
     . ~/.funcs.clean

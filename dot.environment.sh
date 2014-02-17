@@ -49,7 +49,9 @@ exists dircolors && eval $(dircolors --bourne-shell)
 
 # Java likes to have a home
 if [ -z "$JAVA_HOME" ]; then
-    if [ -d /Library/Java/Home ]; then
+    if [ -x /usr/libexec/java_home ]; then
+        export JAVA_HOME=$(/usr/libexec/java_home)
+    elif [ -d /Library/Java/Home ]; then
         export JAVA_HOME=/Library/Java/Home
     elif [ -d /opt/java ]; then
         export JAVA_HOME=/opt/java

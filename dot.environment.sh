@@ -109,6 +109,9 @@ export GIT_PS1_SHOWUPSTREAM=yes
 export CCACHE_COMPRESS=yes
 export CCACHE_DIR=/var/tmp/ccache
 
+# Configure GCC Colors
+export GCC_COLORS='error=01;31:warning=00;33:note=00;36:caret=01;32:locus=01:quote=01'
+
 # apply host-specific settings
 [ -f ~/.environment.local ] && . ~/.environment.local
 

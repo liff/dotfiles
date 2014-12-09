@@ -16,6 +16,9 @@ prepend_to_path_if_exists \
     /usr/lib/ccache \
     $HOME/bin
 
+# enable terminal colors on OS X
+export CLICOLOR=1
+
 # don't put duplicate or same successive entries in the history
 export HISTCONTROL=ignoredups:ignoreboth
 

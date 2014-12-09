@@ -45,16 +45,16 @@ logged_in_remotely() {
     test -n "$SSH_TTY"
 }
 
-maybe_gnu_ls_options() {
-    local ls
-    if ls --version &>/dev/null; then
-        ls=ls
-    elif gls --version &>/dev/null; then
-        ls=gls
-    else
-        return 0
+choose_ls_alias() {
+    local ls_command=ls
+    if gls --version &>/dev/null; then
+        ls_command=gls
     fi
-    alias ls="${ls} --format=across --classify --size --color=auto"
+    if $ls_command --version &>/dev/null; then
+        alias ls="${ls_command} --format=across --classify --size --color=auto"
+    else
+        alias ls="${ls_command} -xFsG"
+    fi
 }
 
 find_home() {

@@ -34,7 +34,7 @@ if [[ -n "$PS1" ]]; then
 
 
     ## define aliases
-    maybe_gnu_ls_options
+    choose_ls_alias
     alias grep="grep --color=auto"
     alias fgrep="fgrep --color=auto"
     alias egrep="egrep --color=auto"

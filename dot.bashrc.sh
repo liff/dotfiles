@@ -55,20 +55,6 @@ if [[ -n "$PS1" ]]; then
 
     exists xdg-open && alias open="xdg-open"
 
-    if exists bundle; then
-        bex() {
-            if test -r Gemfile.lock; then
-                bundle exec "$@"
-            else
-                command "$@"
-            fi
-        }
-
-        for cmd in rake rspec cap guard rackup spork thin whenever; do
-            alias $cmd="bex ${cmd}"
-        done
-    fi
-
     ## bash completion
     [ -f /etc/bash_completion ] && ! shopt -oq posix && . /etc/bash_completion
     exists brew && [ -f `brew --prefix`/etc/bash_completion ] && . `brew --prefix`/etc/bash_completion
@@ -109,6 +95,20 @@ if [[ -n "$PS1" ]]; then
         # Start rbenv, if installed
         exists rbenv && eval "$(rbenv init -)"
         __rbenv_prompt="\[\e[0;34m\]\$(rbenv version-name)"
+    fi
+
+    if exists bundle; then
+        bex() {
+            if test -r Gemfile.lock; then
+                bundle exec "$@"
+            else
+                command "$@"
+            fi
+        }
+
+        for cmd in rake rspec cap guard rackup spork thin whenever; do
+            alias $cmd="bex ${cmd}"
+        done
     fi
 
     __ps1_char() {

@@ -113,6 +113,9 @@ export CCACHE_DIR=/var/tmp/ccache
 # Configure GCC Colors
 export GCC_COLORS='error=01;31:warning=00;33:note=00;36:caret=01;32:locus=01:quote=01'
 
+# Configure docker
+exists docker-machine && eval $(docker-machine env default)
+
 # apply host-specific settings
 [ -f ~/.environment.local ] && . ~/.environment.local
 

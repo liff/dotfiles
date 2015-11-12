@@ -131,10 +131,14 @@ if [[ -n "$PS1" ]]; then
       __ps1_username_color='32'
     fi
 
+    __git_email_check() {
+        git rev-parse --git-dir &>/dev/null && [ -z "`git config --local --get user.email`" ] && echo '@'
+    }
+
     # colourized prompt
     __update_ps1() {
         local char=$(__ps1_char)
-        PS1='\[\e['"${__ps1_username_color}"'m\]\u\[\e[m\]@\[\e['"${__ps1_host_color}"'m\]\h\[\e[m\]:\[\e[34m\]\w\[\e[35m\]$(__git_ps1 "(%s)")$(__hg_ps1 "({branch}{status})")$(__svn_ps1)'"${char} "
+        PS1='\[\e['"${__ps1_username_color}"'m\]\u\[\e[m\]@\[\e['"${__ps1_host_color}"'m\]\h\[\e[m\]:\[\e[34m\]\w\[\e[1;31m\]$(__git_email_check)\[\e[0;35m\]$(__git_ps1 "(%s)")$(__hg_ps1 "({branch}{status})")$(__svn_ps1)'"${char} "
         [ -n "$__rbenv_prompt" ] && PS1="${__rbenv_prompt} $PS1"
         [ -n "$__rvm_prompt" ] && PS1="${__rvm_prompt} $PS1"
     }

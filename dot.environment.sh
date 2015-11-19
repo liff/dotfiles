@@ -4,7 +4,7 @@
 . ~/.funcs.decl
 
 
-[ "${PATH#/usr/local/bin}" = "$PATH" ] && PATH="/usr/local/bin:$(echo "$PATH" | sed 's#/usr/local/bin##;s/:://')"
+[ "${PATH#/usr/local/bin}" = "$PATH" ] && PATH="/usr/local/bin:$(echo "$PATH" | sed 's#/usr/local/bin##;s/::/:/')"
 
 # conditionally add some common paths
 prepend_to_path_if_exists \

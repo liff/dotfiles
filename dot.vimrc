@@ -1,10 +1,16 @@
-if has("syntax")
-  syntax on
-end
+set nocompatible
+filetype off
 
-if has("autocmd")
-  filetype plugin indent on
-endif
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
+
+Plugin 'VundleVim/Vundle.vim'
+Plugin 'derekwyatt/vim-scala'
+
+call vundle#end()
+
+filetype plugin indent on
+syntax on
 
 set smartcase
 set incsearch

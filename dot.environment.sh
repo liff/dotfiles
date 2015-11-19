@@ -82,6 +82,9 @@ if [ -z "$ANDROID_HOME" ]; then
         append_to_path_if_exists \
             "${ANDROID_HOME}/tools" \
             "${ANDROID_HOME}/platform-tools"
+    elif [ -d /usr/local/opt/android-sdk ]; then
+        export ANDROID_HOME=/usr/local/opt/android-sdk
+        export ANDROID_SDK_ROOT="$ANDROID_HOME"
     elif exists android; then
         export ANDROID_HOME="$(find_home android)"
         export ANDROID_SDK_ROOT="$ANDROID_HOME"

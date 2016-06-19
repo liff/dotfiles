@@ -1,15 +1,23 @@
 [core]
-	pager = less -XF
+	pager = "diff-so-fancy | less -RXF"
 	editor = vim
+
+[submodule]
+	fetchJobs = 4
+
 [color]
 	ui = auto
-[diff]
-	tool = vimdiff
+
+[user]
+	useconfigonly = true
+
 [alias]
 	st = status -bs
 	bs = branch -av
-	pristine = clean -xfd
-[apply]
-	whitespace = error
+
 [push]
 	default = simple
+
+[diff]
+	compactionHeuristic = true
+

@@ -39,6 +39,6 @@ ssh "$1" <<EOF
 EOF
 
 if [ -d "$HOME/.vim/bundle" ]; then
-    rsync --archive --compress "$HOME/.vim/bundle" "$1":.vim/
+    rsync --archive --compress --itemize-changes "$HOME/.vim/bundle" "$1":.vim/
 fi
 

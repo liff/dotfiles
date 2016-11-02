@@ -20,4 +20,5 @@
 
 [diff]
 	compactionHeuristic = true
+	algorithm = histogram
 

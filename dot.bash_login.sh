@@ -1,7 +1,5 @@
 . ~/.bash_functions
 
-[ -d "$HOME/bin" ] && export PATH=$HOME/bin:$PATH
-
 # cache $(uname) information
 __UNAME="$(uname)"
 
@@ -11,6 +9,9 @@ fi
 
 # Enable terminal colors on OS X
 [ -n $__OSX ] && export CLICOLOR=1
+
+# Reset path from launchctl
+[ -n $__OSX ] && export PATH="$(launchctl getenv PATH)"
 
 # Don't put duplicate or same successive entries in the history
 export HISTCONTROL=ignoredups:ignoreboth
@@ -22,6 +23,7 @@ export PROMPT_DIRTRIM=3
 export VIEW=less
 export PAGER="$VIEW"
 export LESS="-Ri -b1024 -X"
+command_available vimpager && export MANPAGER=vimpager
 
 # Open URIs with a generic open command
 if [ -n $__OSX ]; then
@@ -64,5 +66,7 @@ fi
 
 # Configure dircolors if needed
 command_available dircolors && eval "$(dircolors --bourne-shell)"
+
+[ -f ~/.iterm2_shell_integration.bash ] && source ~/.iterm2_shell_integration.bash
 
 . ~/.bashrc

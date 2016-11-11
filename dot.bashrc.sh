@@ -55,6 +55,15 @@ if ! type __git_ps1 &>/dev/null; then
     }
 fi
 
+## Enable rbenv
+if command_available rbenv; then
+  eval "$(rbenv init -)"
+  __rbenv_prompt="\[\e[0;34m\]\$(rbenv version-name)"
+else
+  __rbenv_prompt=''
+fi
+
+
 ## Build prompt
 __ps1_char() {
     local status=$?
@@ -65,16 +74,18 @@ __ps1_char() {
     echo -e "\[\033[${color}m\]${char}\[\033[m\]"
 }
 
-if logged_in_remotely; then
-    __ps1_host_color='1;36'
-else
-    __ps1_host_color='36'
-fi
-
 if [ $UID -eq 0 ]; then
     __ps1_username_color='31'
 else
     __ps1_username_color='32'
+fi
+
+if logged_in_remotely; then
+    __ps1_host_color='1;36'
+    __ps1_user_host="\[\e[${__ps1_username_color}m\]\u\[\e[m\]@\[\e[${__ps1_host_color}m\]\h\[\e[m\]:"
+else
+    __ps1_host_color='36'
+    __ps1_user_host=''
 fi
 
 if command_available git; then
@@ -89,7 +100,8 @@ fi
 
 __update_ps1() {
     local char=$(__ps1_char)
-    PS1='\[\e['"${__ps1_username_color}"'m\]\u\[\e[m\]@\[\e['"${__ps1_host_color}"'m\]\h\[\e[m\]:\[\e[34m\]\w\[\e[1;31m\]$(__git_email_check)\[\e[0;35m\]$(__git_ps1 "(%s)")'"${char} "
+    PS1="${__ps1_user_host}"'\[\e[34m\]\w\[\e[1;31m\]$(__git_email_check)\[\e[0;35m\]$(__git_ps1 "(%s)")'"${char} "
+    [ -n "$__rbenv_prompt" ] && PS1="${__rbenv_prompt} $PS1"
 }
 
 case "$TERM" in
@@ -97,3 +109,5 @@ case "$TERM" in
 esac
 
 PROMPT_COMMAND="__update_ps1;$PROMPT_COMMAND"
+
+

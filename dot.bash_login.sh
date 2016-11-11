@@ -61,7 +61,7 @@ elif command_available lesspipe.sh; then
 fi
 
 if command_available highlight && [ -n "$LESSPIPE" ]; then
-    export LESSOPEN="| $HOME/bin/lessfilter-highlight %s"
+    export LESSOPEN="| $HOME/.local/bin/lessfilter-highlight %s"
 fi
 
 # Configure dircolors if needed

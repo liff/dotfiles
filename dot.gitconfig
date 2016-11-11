@@ -14,6 +14,8 @@
 [alias]
 	st = status -bs
 	bs = branch -av
+	lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
+	abs = for-each-ref --sort='-authordate:iso8601' --format='%(color:green)%(authordate:iso8601)%09%(color:white)%(refname:short)' refs/heads
 
 [push]
 	default = simple

@@ -103,7 +103,9 @@ command_available colordiff && alias diff="colordiff"
 command_available vim && alias vi=vim
 
 ## Enable bash_completion
-[ -f /etc/bash_completion ] && ! shopt -oq posix && . /etc/bash_completion
+[ -r /usr/share/bash-completion/bash_completion ] && . /usr/share/bash-completion/bash_completion
+[ -r /etc/bash_completion ] && ! shopt -oq posix && . /etc/bash_completion
+[ -r /usr/share/git-core/contrib/completion/git-prompt.sh ] && . /usr/share/git-core/contrib/completion/git-prompt.sh
 [ -n "$have_homebrew" -a -f $brew_prefix/etc/bash_completion ] && . $brew_prefix/etc/bash_completion
 
 ## Enable Git prompt support

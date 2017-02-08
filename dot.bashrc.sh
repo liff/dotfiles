@@ -47,6 +47,7 @@ fi
 
 # Configure dircolors if needed
 command_available dircolors && eval "$(dircolors --bourne-shell)"
+command_available gdircolors && eval "$(gdircolors --bourne-shell)"
 
 # Try to find a JAVA_HOME
 if [ -z "$JAVA_HOME" ]; then
@@ -59,6 +60,9 @@ if [ -z "$JAVA_HOME" ]; then
 
     [ -n "$JAVA_HOME" -a -z "$JDK_HOME" ] && export JDK_HOME="$JAVA_HOME"
 fi
+
+# Enable Rust backtraces
+export RUST_BACKTRACE=1
 
 ## Set bash options
 set -o notify
@@ -87,16 +91,13 @@ fi
 command_available xdg-open && alias open="xdg-open"
 
 # Figure out whether we should use OSX's default version of ls, gls or ls as GNU ls
-ls_command=ls
 if gls --version &>/dev/null; then
-    ls_command=gls
-fi
-if $ls_command --version &>/dev/null; then
-    alias ls="${ls_command} --format=across --classify --size --color=auto"
+    alias ls="gls --format=across --classify --size --color=auto"
+elif ls --version &>/dev/null; then
+    alias ls="ls --format=across --classify --size --color=auto"
 else
-    alias ls="${ls_command} -xFsG"
+    alias ls="ls -xFsG"
 fi
-unset ls_command
 
 command_available colordiff && alias diff="colordiff"
 command_available vim && alias vi=vim

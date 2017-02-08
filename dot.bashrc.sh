@@ -107,6 +107,7 @@ command_available vim && alias vi=vim
 [ -r /etc/bash_completion ] && ! shopt -oq posix && . /etc/bash_completion
 [ -r /usr/share/git-core/contrib/completion/git-prompt.sh ] && . /usr/share/git-core/contrib/completion/git-prompt.sh
 [ -n "$have_homebrew" -a -f $brew_prefix/etc/bash_completion ] && . $brew_prefix/etc/bash_completion
+[ -r $HOME/.bash_completion ] && . $HOME/.bash_completion
 
 ## Enable Git prompt support
 [ -n "$have_homebrew" -a -f $brew_prefix/etc/bash_completion.d/git-prompt.sh ] && . $brew_prefix/etc/bash_completion.d/git-prompt.sh

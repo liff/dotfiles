@@ -24,3 +24,6 @@
 	compactionHeuristic = true
 	algorithm = histogram
 
+[include]
+    path = .gitconfig.local
+

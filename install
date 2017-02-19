@@ -1,0 +1,30 @@
+#!/bin/bash
+
+set -e
+
+backup() {
+    local dotfile="$1"
+    if [ -f "$HOME/.$dotfile" ]; then
+        mv "$HOME/.$dotfile" "$HOME/dot.$dotfile.bak"
+        echo "Backed up $HOME/.$dotfile as $HOME/dot.$dotfile.bak"
+    fi
+}
+
+backup "bash_profile"
+backup "profile"
+backup "bash_login"
+backup "bashrc"
+
+ln -hfs $(pwd)/dot.bash_functions.sh "$HOME/.bash_functions"
+ln -hfs $(pwd)/dot.bash_login.sh "$HOME/.bash_login"
+ln -hfs $(pwd)/dot.bashrc.sh "$HOME/.bashrc"
+ln -hfs $(pwd)/dot.colordiffrc "$HOME/.colordiffrc"
+ln -hfs $(pwd)/dot.gemrc "$HOME/.gemrc"
+ln -hfs $(pwd)/dot.gitconfig "$HOME/.gitconfig"
+ln -hfs $(pwd)/dot.vimrc "$HOME/.vimrc"
+
+mkdir -p ~/.vim/autoload ~/.vim/bundle
+curl -LSso ~/.vim/autoload/pathogen.vim https://tpo.pe/pathogen.vim
+
+git clone git://github.com/tpope/vim-sensible.git ~/.vim/bundle/vim-sensible
+

@@ -10,6 +10,7 @@ if [ "$(uname)" = 'Darwin' ]; then
 
     [ -f ~/.iterm2_shell_integration.bash ] && source ~/.iterm2_shell_integration.bash
 else
+    prepend_to_path_if_exists $HOME/.cargo/bin $HOME/.local/bin
     export BROWSER=xdg-open
 fi
 

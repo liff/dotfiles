@@ -106,6 +106,7 @@ command_available vim && alias vi=vim
 [ -r /usr/share/bash-completion/bash_completion ] && . /usr/share/bash-completion/bash_completion
 [ -r /etc/bash_completion ] && ! shopt -oq posix && . /etc/bash_completion
 [ -r /usr/share/git-core/contrib/completion/git-prompt.sh ] && . /usr/share/git-core/contrib/completion/git-prompt.sh
+[ -r /usr/share/git/git-prompt.sh ] && . /usr/share/git/git-prompt.sh
 [ -n "$have_homebrew" -a -f $brew_prefix/etc/bash_completion ] && . $brew_prefix/etc/bash_completion
 [ -r $HOME/.bash_completion ] && . $HOME/.bash_completion
 

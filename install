@@ -1,50 +1,30 @@
 #!/bin/bash
 
-shopt -s extglob # for proper_dot_filename
+set -e
 
-collect_existing_files() {
-    local result
-    for f in "$@"; do
-        [ -f $HOME/$f ] && result="$result $HOME/$f"
-    done
-    echo $result
+backup() {
+    local dotfile="$1"
+    if [ -f "$HOME/.$dotfile" ]; then
+        mv "$HOME/.$dotfile" "$HOME/dot.$dotfile.bak"
+        echo "Backed up $HOME/.$dotfile as $HOME/dot.$dotfile.bak"
+    fi
 }
 
-proper_dot_filename() {
-    local no_ext="${1%@(.rb|.sh)}"
-    echo ${no_ext#dot}
-}
+backup "bash_profile"
+backup "profile"
+backup "bash_login"
+backup "bashrc"
 
-different() {
-    ! cmp $1 $2 > /dev/null
-}
+ln -hfs $(pwd)/dot.bash_functions.sh "$HOME/.bash_functions"
+ln -hfs $(pwd)/dot.bash_login.sh "$HOME/.bash_login"
+ln -hfs $(pwd)/dot.bashrc.sh "$HOME/.bashrc"
+ln -hfs $(pwd)/dot.colordiffrc "$HOME/.colordiffrc"
+ln -hfs $(pwd)/dot.gemrc "$HOME/.gemrc"
+ln -hfs $(pwd)/dot.gitconfig "$HOME/.gitconfig"
+ln -hfs $(pwd)/dot.vimrc "$HOME/.vimrc"
 
-BASIC_DOTFILES=$"dot.*.sh dot.*.rb dot.ackrc dot.colordiffrc dot.vimrc dot.inputrc dot.gitconfig dot.lessfilter dot.gitattributes dot.gemrc"
+mkdir -p ~/.vim/autoload ~/.vim/bundle
+curl -LSso ~/.vim/autoload/pathogen.vim https://tpo.pe/pathogen.vim
 
-echo "About to overwrite following files:"
-for src_dotfile in $BASIC_DOTFILES; do
-    target_dotfile="$HOME/$(proper_dot_filename "$src_dotfile")"
-    [ -f "$target_dotfile" ] && different $src_dotfile $target_dotfile && echo -e '\t' $target_dotfile
-done
+git clone git://github.com/tpope/vim-sensible.git ~/.vim/bundle/vim-sensible
 
-read -ep "Continue? " please_continue
-if [ "$please_continue" != "y" ]; then
-    echo "Aborted"
-    exit 1
-fi
-
-for src_dotfile in $BASIC_DOTFILES; do
-    target_dotfile="$HOME/$(proper_dot_filename "$src_dotfile")"
-    echo "${src_dotfile} -> ${target_dotfile}"
-    cp "$src_dotfile" "$target_dotfile"
-done
-
-chmod +x "$HOME/.lessfilter"
-
-maybe_remove=$(collect_existing_files .profile .bash_profile .emacs .emacs.el)
-if [ "$maybe_remove" != "" ]; then
-    echo "You may want to remove or rename the following files:"
-    for f in $maybe_remove; do
-        echo -e "\t$f"
-    done
-fi

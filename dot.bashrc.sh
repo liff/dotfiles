@@ -1,155 +1,176 @@
-## -*- sh -*-
+. ~/.bash_functions
 
-if [ -z "$rvm_version" ]; then
-    if [[ -s "${rvm_path}/scripts/rvm" ]]; then
-        . "${rvm_path}/scripts/rvm"
-    elif [[ -s "${HOME}/.rvm/scripts/rvm" ]]; then
-        . "$HOME/.rvm/scripts/rvm"
-    elif [[ -s "/usr/local/rvm/scripts/rvm" ]]; then
-        . "/usr/local/rvm/scripts/rvm"
-    fi
+if [ "$(uname)" = 'Darwin' ]; then
+    # Enable terminal colors on OS X
+    export CLICOLOR=1
+    # Reset path from launchctl
+    export PATH="$(launchctl getenv PATH)"
+    # Open URIs with a generic open command
+    export BROWSER=open
+
+    [ -f ~/.iterm2_shell_integration.bash ] && source ~/.iterm2_shell_integration.bash
+else
+    export BROWSER=xdg-open
 fi
 
-# no need to run this for non-interactive shell
-if [[ -n "$PS1" ]]; then
+# Don't put duplicate or same successive entries in the history
+export HISTCONTROL=ignoredups:ignoreboth
 
-    ## load helper functions
-    . ~/.funcs.decl
+# Configure Bash prompt
+export PROMPT_DIRTRIM=3
 
-    ## set bash options
-    set -o notify
-    shopt -s			\
-        cdspell			\
-        checkhash		\
-        checkwinsize		\
-        extglob			\
-        histreedit		\
-        histverify		\
-        gnu_errfmt		\
-        no_empty_cmd_completion
-    shopt -u			\
-        dotglob			\
-        hostcomplete		\
-        lithist
+# Configure less
+export VIEW=less
+export PAGER="$VIEW"
+export LESS="-Ri -b1024 -X"
+command_available vimpager && export MANPAGER=vimpager
 
+# Configure Git prompt
+export GIT_PS1_SHOWDIRTYSTATE=yes
+export GIT_PS1_SHOWSTASHSTATE=yes
+export GIT_PS1_SHOWUNTRACKEDFILES=yes
+export GIT_PS1_SHOWUPSTREAM=yes
 
-    ## define aliases
-    choose_ls_alias
-    alias grep="grep --color=auto"
-    alias fgrep="fgrep --color=auto"
-    alias egrep="egrep --color=auto"
-    alias cgrep="grep --line-number --color=auto --exclude-dir=.{svn,git} --exclude='*~' --exclude='*.log' --recursive --binary-files=without-match"
-    exists ack-grep && \
-        alias ack="ack-grep"
-    alias gdb="gdb --quiet --tui"
-    exists notify-send && \
-        alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
-    exists colordiff && alias diff="colordiff"
-    test -d /opt/RubyMine && \
-        alias rmspork='RUBYLIB=/opt/RubyMine/rb/testing/patch/common:/opt/RubyMine/rb/testing/patch/bdd:/opt/RubyMine/rb/testing/patch/testunit spork'
+# Configure GCC Colors
+export GCC_COLORS='error=01;31:warning=00;33:note=00;36:caret=01;32:locus=01:quote=01'
 
-    if [ -n "$PAGER" -a "$PAGER" != "less" ]; then
-        alias less=$PAGER
-        alias zless=$PAGER
+# Configure lesspipe
+if command_available lesspipe; then
+    LESSPIPE=lesspipe
+elif command_available lesspipe.sh; then
+    LESSPIPE=lesspipe.sh
+fi
+
+if command_available highlight && [ -n "$LESSPIPE" ]; then
+    export LESSOPEN="| $HOME/.local/bin/lessfilter-highlight %s"
+fi
+
+# Configure dircolors if needed
+command_available dircolors && eval "$(dircolors --bourne-shell)"
+command_available gdircolors && eval "$(gdircolors --bourne-shell)"
+
+# Try to find a JAVA_HOME
+if [ -z "$JAVA_HOME" ]; then
+    if [ -x '/usr/libexec/java_home' ]; then
+        export JAVA_HOME=$(/usr/libexec/java_home)
+    elif [ -L '/etc/alternatives/java' ]; then
+        # there may be a neater way to do this but i don't care atm
+        export JAVA_HOME="$(dirname $(dirname $(dirname $(readlink /etc/alternatives/java))))"
     fi
 
-    exists xdg-open && alias open="xdg-open"
+    [ -n "$JAVA_HOME" -a -z "$JDK_HOME" ] && export JDK_HOME="$JAVA_HOME"
+fi
 
-    ## bash completion
-    [ -f /etc/bash_completion ] && ! shopt -oq posix && . /etc/bash_completion
-    exists brew && [ -f `brew --prefix`/etc/bash_completion ] && . `brew --prefix`/etc/bash_completion
+# Enable Rust backtraces
+export RUST_BACKTRACE=1
 
-    ## Git prompt and completion
-    if exists brew && [ -f `brew --prefix git`/share/git-core/git-prompt.sh ]; then
-        . `brew --prefix git`/share/git-core/git-prompt.sh
-    elif [ -f /usr/share/git-core/git-prompt.sh ]; then
-        . /usr/share/git-core/git-prompt.sh
-        [ -f /usr/share/git-core/git-completion.bash ] && . /usr/share/git-core/git-completion.bash
-    fi
+## Set bash options
+set -o notify
+shopt -s          \
+    cdspell       \
+    checkhash     \
+    checkwinsize  \
+    extglob       \
+    histappend    \
+    histreedit    \
+    histverify    \
+    gnu_errfmt    \
+    no_empty_cmd_completion
+shopt -u         \
+    dotglob      \
+    hostcomplete \
+    lithist
 
-    ## set prompt
-    if ! type __git_ps1 &>/dev/null; then
-        __git_ps1() {
-            return 0
-        }
-    fi
+# cache homebrew info
+if command_available brew; then
+    have_homebrew=yes
+    brew_prefix=$(brew --prefix)
+fi
 
-    if grep '^prompt' ~/.hgrc &>/dev/null; then
-        __hg_ps1() {
-            hg prompt "$@" 2>/dev/null
-        }
-    else
-        __hg_ps1() {
-            return 0
-        }
-    fi
+## Set aliases
+command_available xdg-open && alias open="xdg-open"
 
-    __rvm_prompt=''
-    __rbenv_prompt=''
-    if [ -n "$rvm_version" ]; then
-        rvm_prompt_space() {
-            [[ -n "$(rvm-prompt)" ]] && echo " "
-        }
-        __rvm_prompt="\[\e[1;34m\]\$(rvm-prompt i)\[\e[0;34m\]\$(rvm-prompt v)\[\e[0;31m\]\$(rvm-prompt g)\$(rvm_prompt_space)"
-    elif exists rbenv; then
-        # Start rbenv, if installed
-        exists rbenv && eval "$(rbenv init -)"
-        __rbenv_prompt="\[\e[0;34m\]\$(rbenv version-name)"
-    fi
+# Figure out whether we should use OSX's default version of ls, gls or ls as GNU ls
+if gls --version &>/dev/null; then
+    alias ls="gls --format=across --classify --size --color=auto"
+elif ls --version &>/dev/null; then
+    alias ls="ls --format=across --classify --size --color=auto"
+else
+    alias ls="ls -xFsG"
+fi
 
-    if exists bundle; then
-        bex() {
-            if test -r Gemfile.lock; then
-                bundle exec "$@"
-            else
-                command "$@"
-            fi
-        }
+command_available colordiff && alias diff="colordiff"
+command_available vim && alias vi=vim
 
-        for cmd in rake rspec cap guard rackup spork thin whenever; do
-            alias $cmd="bex ${cmd}"
-        done
-    fi
+## Enable bash_completion
+[ -r /usr/share/bash-completion/bash_completion ] && . /usr/share/bash-completion/bash_completion
+[ -r /etc/bash_completion ] && ! shopt -oq posix && . /etc/bash_completion
+[ -r /usr/share/git-core/contrib/completion/git-prompt.sh ] && . /usr/share/git-core/contrib/completion/git-prompt.sh
+[ -n "$have_homebrew" -a -f $brew_prefix/etc/bash_completion ] && . $brew_prefix/etc/bash_completion
+[ -r $HOME/.bash_completion ] && . $HOME/.bash_completion
 
-    __ps1_char() {
-	local status=$?
-        local char='>'
-        local color="33"
-        [ $UID -eq 0 ] && char='\$'
-        [ $status -ne 0 ] && color="1;31"
-        echo -e "\[\033[${color}m\]${char}\[\033[m\]"
+## Enable Git prompt support
+[ -n "$have_homebrew" -a -f $brew_prefix/etc/bash_completion.d/git-prompt.sh ] && . $brew_prefix/etc/bash_completion.d/git-prompt.sh
+
+if ! type __git_ps1 &>/dev/null; then
+    __git_ps1() {
+        return 0
     }
+fi
 
-    if logged_in_remotely; then
-      __ps1_host_color='1;36'
-    else
-      __ps1_host_color='36'
-    fi
-    if [ $UID -eq 0 ]; then
-      __ps1_username_color='31'
-    else
-      __ps1_username_color='32'
-    fi
+## Enable rbenv
+if command_available rbenv; then
+  eval "$(rbenv init -)"
+  __rbenv_prompt="\[\e[0;34m\]\$(rbenv version-name)"
+else
+  __rbenv_prompt=''
+fi
 
+
+## Build prompt
+__ps1_char() {
+    local status=$?
+    local char='>'
+    local color="33"
+    [ $UID -eq 0 ] && char='\$'
+    [ $status -ne 0 ] && color="1;31"
+    echo -e "\[\033[${color}m\]${char}\[\033[m\]"
+}
+
+if [ $UID -eq 0 ]; then
+    __ps1_username_color='31'
+else
+    __ps1_username_color='32'
+fi
+
+if logged_in_remotely; then
+    __ps1_host_color='1;36'
+    __ps1_user_host="\[\e[${__ps1_username_color}m\]\u\[\e[m\]@\[\e[${__ps1_host_color}m\]\h\[\e[m\]:"
+else
+    __ps1_host_color='36'
+    __ps1_user_host=''
+fi
+
+if command_available git; then
     __git_email_check() {
         git rev-parse --git-dir &>/dev/null && [ -z "`git config --local --get user.email`" ] && echo '@'
     }
-
-    # colourized prompt
-    __update_ps1() {
-        local char=$(__ps1_char)
-        PS1='\[\e['"${__ps1_username_color}"'m\]\u\[\e[m\]@\[\e['"${__ps1_host_color}"'m\]\h\[\e[m\]:\[\e[34m\]\w\[\e[1;31m\]$(__git_email_check)\[\e[0;35m\]$(__git_ps1 "(%s)")$(__hg_ps1 "({branch}{status})")$(__svn_ps1)'"${char} "
-        [ -n "$__rbenv_prompt" ] && PS1="${__rbenv_prompt} $PS1"
-        [ -n "$__rvm_prompt" ] && PS1="${__rvm_prompt} $PS1"
+else
+    __git_email_check() {
+        return 0
     }
-
-    # show user/host in xterm
-    case "$TERM" in
-        xterm*) PROMPT_COMMAND='echo -ne "\033]0;${USER}@${HOSTNAME}: ${PWD}\007"' ;;
-    esac
-
-    PROMPT_COMMAND="__update_ps1;$PROMPT_COMMAND"
-
-    ## clean up
-    . ~/.funcs.clean
 fi
+
+__update_ps1() {
+    local char=$(__ps1_char)
+    PS1="${__ps1_user_host}"'\[\e[34m\]\w\[\e[1;31m\]$(__git_email_check)\[\e[0;35m\]$(__git_ps1 "(%s)")'"${char} "
+    [ -n "$__rbenv_prompt" ] && PS1="${__rbenv_prompt} $PS1"
+}
+
+case "$TERM" in
+    xterm*) PROMPT_COMMAND='echo -ne "\033]0;${USER}@${HOSTNAME}: ${PWD}\007"' ;;
+esac
+
+PROMPT_COMMAND="__update_ps1;$PROMPT_COMMAND"
+
+

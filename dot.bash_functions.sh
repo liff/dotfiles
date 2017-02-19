@@ -12,6 +12,6 @@ prepend_to_path_if_exists() {
     local dir
     for dir in "$@"; do
         for entry in $PATH; do [ "$entry" = "$dir" ] && continue 2; done
-        [ -d "$dir" ] && export PATH="${dir}:${PATH}"
+        export PATH="${dir}:${PATH}"
     done
 }

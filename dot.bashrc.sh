@@ -16,6 +16,7 @@ fi
 
 # Don't put duplicate or same successive entries in the history
 export HISTCONTROL=ignoredups:ignoreboth
+export HISTSIZE=2147483647
 
 # Configure Bash prompt
 export PROMPT_DIRTRIM=3

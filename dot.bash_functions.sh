@@ -1,5 +1,5 @@
 command_available() {
-    type "$1" &>/dev/null
+    type -p "$1" &>/dev/null
 }
 
 logged_in_remotely() {

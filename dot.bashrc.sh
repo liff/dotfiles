@@ -93,7 +93,7 @@ fi
 command_available xdg-open && alias open="xdg-open"
 
 # Figure out whether we should use OSX's default version of ls, gls or ls as GNU ls
-if gls --version &>/dev/null; then
+if command_available gls && gls --version &>/dev/null; then
     alias ls="gls --format=across --classify --size --color=auto"
 elif ls --version &>/dev/null; then
     alias ls="ls --format=across --classify --size --color=auto"

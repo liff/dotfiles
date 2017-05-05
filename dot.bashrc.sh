@@ -21,6 +21,10 @@ export HISTSIZE=2147483647
 # Configure Bash prompt
 export PROMPT_DIRTRIM=3
 
+# Set vim as default editor
+export VISUAL=vim
+export EDITOR=$VISUAL
+
 # Configure less
 export VIEW=less
 export PAGER="$VIEW"

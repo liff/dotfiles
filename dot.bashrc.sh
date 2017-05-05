@@ -48,8 +48,13 @@ if command_available highlight && [ -n "$LESSPIPE" ]; then
 fi
 
 # Configure dircolors if needed
-command_available dircolors && eval "$(dircolors --bourne-shell)"
-command_available gdircolors && eval "$(gdircolors --bourne-shell)"
+if [ -r ~/.dir_colors ]; then
+    DIR_COLORS_DB=~/.dir_colors
+else
+    DIR_COLORS_DB=""
+fi
+command_available dircolors && eval "$(dircolors --bourne-shell $DIR_COLORS_DB)"
+command_available gdircolors && eval "$(gdircolors --bourne-shell $DIR_COLORS_DB)"
 
 # Try to find a JAVA_HOME
 if [ -z "$JAVA_HOME" ]; then

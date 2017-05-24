@@ -1,6 +1,6 @@
 # OS X
 
-    brew install coreutils git colordiff diff-so-fancy bash-completion rbenv less lesspipe highlight
+    brew install coreutils git colordiff diff-so-fancy bash-completion rbenv ruby-build less lesspipe highlight
     curl -L https://iterm2.com/misc/bash_startup.in -o ~/.iterm2_shell_integration.bash
     ./install
 

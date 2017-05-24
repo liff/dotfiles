@@ -8,7 +8,7 @@ if [ "$(uname)" = 'Darwin' ]; then
     # Open URIs with a generic open command
     export BROWSER=open
 
-    [ -f ~/.iterm2_shell_integration.bash ] && source ~/.iterm2_shell_integration.bash
+    [ -f ~/.iterm2_shell_integration.bash ] && . ~/.iterm2_shell_integration.bash
 else
     prepend_to_path_if_exists $HOME/.cargo/bin $HOME/.local/bin
     export BROWSER=xdg-open

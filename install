@@ -15,20 +15,20 @@ backup "profile"
 backup "bash_login"
 backup "bashrc"
 
-ln -hfs $(pwd)/dot.bash_functions.sh "$HOME/.bash_functions"
-ln -hfs $(pwd)/dot.bash_login.sh "$HOME/.bash_login"
-ln -hfs $(pwd)/dot.bashrc.sh "$HOME/.bashrc"
-ln -hfs $(pwd)/dot.colordiffrc "$HOME/.colordiffrc"
-ln -hfs $(pwd)/dot.gemrc "$HOME/.gemrc"
-ln -hfs $(pwd)/dot.gitconfig "$HOME/.gitconfig"
-ln -hfs $(pwd)/dot.vimrc "$HOME/.vimrc"
+ln -nfs $(pwd)/dot.bash_functions.sh "$HOME/.bash_functions"
+ln -nfs $(pwd)/dot.bash_login.sh "$HOME/.bash_login"
+ln -nfs $(pwd)/dot.bashrc.sh "$HOME/.bashrc"
+ln -nfs $(pwd)/dot.colordiffrc "$HOME/.colordiffrc"
+ln -nfs $(pwd)/dot.gemrc "$HOME/.gemrc"
+ln -nfs $(pwd)/dot.gitconfig "$HOME/.gitconfig"
+ln -nfs $(pwd)/dot.vimrc "$HOME/.vimrc"
 
 mkdir -p ~/.local/bin
-ln -hfs $(pwd)/lessfilter-highlight.sh ~/.local/bin/lessfilter-highlight
+ln -nfs $(pwd)/lessfilter-highlight.sh ~/.local/bin/lessfilter-highlight
 
 if [ "$(uname)" = 'Darwin' ]; then
     sed "s#\${HOME}#$HOME#g" < $(pwd)/environment.plist.in > ~/Library/LaunchAgents/environment.plist
-    ln -hfs $(pwd)/ssh-keychain.plist ~/Library/LaunchAgents/
+    ln -nfs $(pwd)/ssh-keychain.plist ~/Library/LaunchAgents/
 fi
 
 mkdir -p ~/.vim/autoload ~/.vim/bundle

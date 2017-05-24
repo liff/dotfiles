@@ -177,7 +177,7 @@ fi
 __update_ps1() {
     local char=$(__ps1_char)
     PS1="${__ps1_user_host}"'\[\e[34m\]\w\[\e[1;31m\]$(__git_email_check)\[\e[0;35m\]$(__git_ps1 "(%s)")'"${char} "
-    [ -n "$__rbenv_prompt" ] && PS1="${__rbenv_prompt} $PS1"
+    [ -n "$__rbenv_prompt" ] && is_ruby_project . && PS1="${__rbenv_prompt} $PS1"
 }
 
 case "$TERM" in

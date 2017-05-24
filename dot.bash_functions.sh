@@ -15,3 +15,14 @@ prepend_to_path_if_exists() {
         export PATH="${dir}:${PATH}"
     done
 }
+
+is_ruby_project() {
+    if [ "$(realpath "$1")" = "$HOME" -o "$(realpath "$1")" = '/' ]; then
+        return 1
+    elif [ -f "$1"/*.rb -o -f "$1"/Gemfile -o -f "$1"/*.gemspec ]; then
+        return 0
+    else
+        is_ruby_project "$1"/..
+    fi
+}
+

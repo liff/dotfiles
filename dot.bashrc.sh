@@ -4,7 +4,8 @@ if [ "$(uname)" = 'Darwin' ]; then
     # Enable terminal colors on OS X
     export CLICOLOR=1
     # Reset path from launchctl
-    export PATH="$(launchctl getenv PATH)"
+    __launchctl_path="$(launchctl getenv PATH)"
+    [ -n "$path" ] && export PATH="$__launchctl_path"
     # Open URIs with a generic open command
     export BROWSER=open
 

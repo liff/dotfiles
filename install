@@ -23,6 +23,14 @@ ln -hfs $(pwd)/dot.gemrc "$HOME/.gemrc"
 ln -hfs $(pwd)/dot.gitconfig "$HOME/.gitconfig"
 ln -hfs $(pwd)/dot.vimrc "$HOME/.vimrc"
 
+mkdir -p ~/.local/bin
+ln -hfs $(pwd)/lessfilter-highlight.sh ~/.local/bin/lessfilter-highlight
+
+if [ "$(uname)" = 'Darwin' ]; then
+    sed "s#\${HOME}#$HOME#g" < $(pwd)/environment.plist.in > ~/Library/LaunchAgents/environment.plist
+    ln -hfs $(pwd)/ssh-keychain.plist ~/Library/LaunchAgents/
+fi
+
 mkdir -p ~/.vim/autoload ~/.vim/bundle
 curl -LSso ~/.vim/autoload/pathogen.vim https://tpo.pe/pathogen.vim
 

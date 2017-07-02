@@ -113,6 +113,15 @@ fi
 
 command_available colordiff && alias diff="colordiff"
 command_available vim && alias vi=vim
+if command_available highlight && command_available json_pp; then
+    vj() {
+        json_pp < "$1" | highlight --syntax=json --quiet --out-format=xterm256 --line-numbers --style=solarized-light | less
+    }
+else
+    vj() {
+        less "$1"
+    }
+fi
 
 ## Enable bash_completion
 [ -r /usr/share/bash-completion/bash_completion ] && . /usr/share/bash-completion/bash_completion

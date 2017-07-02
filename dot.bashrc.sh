@@ -143,7 +143,7 @@ fi
 ## Build prompt
 __ps1_char() {
     local status=$?
-    local char='>'
+    local char='⟫'
     local color="33"
     [ $UID -eq 0 ] && char='\$'
     [ $status -ne 0 ] && color="1;31"

@@ -40,6 +40,9 @@ export GIT_PS1_SHOWSTASHSTATE=yes
 export GIT_PS1_SHOWUNTRACKEDFILES=yes
 export GIT_PS1_SHOWUPSTREAM=yes
 
+# Configure GNUPG
+export GPG_TTY=$(tty)
+
 # Configure GCC Colors
 export GCC_COLORS='error=01;31:warning=00;33:note=00;36:caret=01;32:locus=01:quote=01'
 

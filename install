@@ -32,6 +32,8 @@ if [ "$(uname)" = 'Darwin' ]; then
     ln -nfs $(pwd)/library-path.plist ~/Library/LaunchAgents/
     read -p 'Enter API token for Homebrew: ' HOMEBREW_GITHUB_API_TOKEN
     sed "s#\${HOMEBREW_GITHUB_API_TOKEN}#$HOMEBREW_GITHUB_API_TOKEN#g" < $(pwd)/homebrew.plist.in > ~/Library/LaunchAgents/homebrew.plist
+    [ ! -d ~/.gnupg ] && install -d -m 0700 ~/.gnupg
+    echo 'pinentry-program /usr/local/bin/pinentry-mac' >> ~/.gnupg/gpg-agent.conf
 fi
 
 mkdir -p ~/.vim/autoload ~/.vim/bundle

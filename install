@@ -29,6 +29,7 @@ ln -nfs $(pwd)/lessfilter-highlight.sh ~/.local/bin/lessfilter-highlight
 if [ "$(uname)" = 'Darwin' ]; then
     sed "s#\${HOME}#$HOME#g" < $(pwd)/environment.plist.in > ~/Library/LaunchAgents/environment.plist
     ln -nfs $(pwd)/ssh-keychain.plist ~/Library/LaunchAgents/
+    ln -nfs $(pwd)/library-path.plist ~/Library/LaunchAgents/
 fi
 
 mkdir -p ~/.vim/autoload ~/.vim/bundle

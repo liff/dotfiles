@@ -30,6 +30,8 @@ if [ "$(uname)" = 'Darwin' ]; then
     sed "s#\${HOME}#$HOME#g" < $(pwd)/environment.plist.in > ~/Library/LaunchAgents/environment.plist
     ln -nfs $(pwd)/ssh-keychain.plist ~/Library/LaunchAgents/
     ln -nfs $(pwd)/library-path.plist ~/Library/LaunchAgents/
+    read -p 'Enter API token for Homebrew: ' HOMEBREW_GITHUB_API_TOKEN
+    sed "s#\${HOMEBREW_GITHUB_API_TOKEN}#$HOMEBREW_GITHUB_API_TOKEN#g" < $(pwd)/homebrew.plist.in > ~/Library/LaunchAgents/homebrew.plist
 fi
 
 mkdir -p ~/.vim/autoload ~/.vim/bundle

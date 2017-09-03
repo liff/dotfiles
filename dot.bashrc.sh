@@ -1,5 +1,7 @@
 . ~/.bash_functions
 
+[ -r ~/.bash_secrets ] && . ~/.bash_secrets
+
 if [ "$(uname)" = 'Darwin' ]; then
     # Enable terminal colors on OS X
     export CLICOLOR=1
@@ -112,7 +114,10 @@ else
 fi
 
 command_available colordiff && alias diff="colordiff"
+
 command_available vim && alias vi=vim
+
+# Add 'vj' command for viewing JSON files
 if command_available highlight && command_available json_pp; then
     vj() {
         json_pp < "$1" | highlight --syntax=json --quiet --out-format=xterm256 --line-numbers --style=solarized-light | less

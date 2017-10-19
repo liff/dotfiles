@@ -2,6 +2,8 @@
 
 [ -r ~/.bash_secrets ] && . ~/.bash_secrets
 
+[ -r ~/.fzf.bash ] && . ~/.fzf.bash
+
 if [ "$(uname)" = 'Darwin' ]; then
     # Enable terminal colors on OS X
     export CLICOLOR=1

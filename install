@@ -39,5 +39,14 @@ fi
 mkdir -p ~/.vim/autoload ~/.vim/bundle
 curl -LSso ~/.vim/autoload/pathogen.vim https://tpo.pe/pathogen.vim
 
-git clone git://github.com/tpope/vim-sensible.git ~/.vim/bundle/vim-sensible
+git clone https://github.com/tpope/vim-sensible.git        ~/.vim/bundle/vim-sensible
+git clone https://github.com/itchyny/lightline.vim.git     ~/.vim/bundle/lightline.vim
+git clone https://github.com/tpope/vim-fugitive.git        ~/.vim/bundle/vim-fugitive
+git clone https://github.com/airblade/vim-gitgutter.git    ~/.vim/bundle/vim-gitgutter
+git clone https://github.com/w0rp/ale.git                  ~/.vim/bundle/ale
+git clone https://github.com/junegunn/fzf.vim.git          ~/.vim/bundle/fzf.vim
+git clone https://github.com/robbles/logstash.vim.git      ~/.vim/bundle/logstash.vim
+git clone https://github.com/derekwyatt/vim-scala.git      ~/.vim/bundle/vim-scala
+git clone https://github.com/rust-lang/rust.vim.git        ~/.vim/bundle/rust.vim
+git clone https://github.com/neovimhaskell/haskell-vim.git ~/.vim/bundle/haskell-vim
 

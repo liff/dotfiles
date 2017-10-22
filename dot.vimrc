@@ -1,5 +1,6 @@
 execute pathogen#infect()
 
+set showcmd
 set listchars=tab:»⋅,trail:⁖
 set list
 set rtp+=/usr/local/opt/fzf

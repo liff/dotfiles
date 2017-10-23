@@ -2,7 +2,11 @@
 
 [ -r ~/.bash_secrets ] && . ~/.bash_secrets
 
-[ -r ~/.fzf.bash ] && . ~/.fzf.bash
+
+[ -r /usr/share/fzf/completion.bash ] && . /usr/share/fzf/completion.bash
+[ -r /usr/local/opt/fzf/shell/completion.bash ] && . /usr/local/opt/fzf/shell/completion.bash
+[ -r /usr/share/fzf/key-bindings.bash ] && . /usr/share/fzf/key-bindings.bash
+[ -r /usr/local/opt/fzf/shell/key-bindings.bash ] && . /usr/local/opt/fzf/shell/key-bindings.bash
 
 if [ "$(uname)" = 'Darwin' ]; then
     # Enable terminal colors on OS X

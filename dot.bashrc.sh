@@ -138,6 +138,7 @@ fi
 [ -r /etc/bash_completion ] && ! shopt -oq posix && . /etc/bash_completion
 [ -r /usr/share/git-core/contrib/completion/git-prompt.sh ] && . /usr/share/git-core/contrib/completion/git-prompt.sh
 [ -r /usr/share/git/git-prompt.sh ] && . /usr/share/git/git-prompt.sh
+[ -r /usr/local/etc/bash_completion.d/git-prompt.sh ] && . /usr/local/etc/bash_completion.d/git-prompt.sh
 [ -n "$have_homebrew" -a -f $brew_prefix/etc/bash_completion ] && . $brew_prefix/etc/bash_completion
 [ -r $HOME/.bash_completion ] && . $HOME/.bash_completion
 

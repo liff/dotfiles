@@ -18,9 +18,12 @@ if [ "$(uname)" = 'Darwin' ]; then
     export BROWSER=open
 
     [ -f ~/.iterm2_shell_integration.bash ] && . ~/.iterm2_shell_integration.bash
+
+    export NPM_CONFIG_PREFIX=$HOME/Library/Caches/npm-packages
 else
-    prepend_to_path_if_exists $HOME/.cargo/bin $HOME/.local/bin
     export BROWSER=xdg-open
+    export NPM_CONFIG_PREFIX=$HOME/.cache/npm-packages
+    prepend_to_path_if_exists $HOME/.cargo/bin $HOME/.local/bin $HOME/.cache/npm-packages/bin
 fi
 
 # Don't put duplicate or same successive entries in the history

@@ -3,13 +3,13 @@
 <plist version="1.0">
 <dict>
 	<key>Label</key>
-	<string>Set global PATH</string>
+	<string>Set global NPM prefix</string>
 	<key>ProgramArguments</key>
 	<array>
 		<string>/bin/launchctl</string>
 		<string>setenv</string>
-		<string>PATH</string>
-                <string>${HOME}/bin:${HOME}/.local/bin:${HOME}/.cargo/bin:${HOME}/Library/Caches/npm-packages/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin</string>
+		<string>NPM_CONFIG_PREFIX</string>
+                <string>${HOME}/Library/Caches/npm-packages</string>
 	</array>
 	<key>RunAtLoad</key>
 	<true/>

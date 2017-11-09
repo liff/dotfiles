@@ -10,43 +10,65 @@ backup() {
     fi
 }
 
+get_vim_plugin() {
+    local gh_user="$1"
+    local repo="$2"
+    test -d ~/.vim/bundle/$repo || git clone https://github.com/$gh_user/$repo.git ~/.vim/bundle/$repo
+}
+
+link_from_here() {
+    local source="$1"
+    local target="$2"
+    local backup="$(dirname "$target")/dot$(basename "$target").bak"
+    if [ "$(readlink "$target")" != "$source" ]; then
+        mv "$target" "$(dirname "$target")/dot.$(basename "$target").bak"
+        echo "Replaced $target with link to $source; backed up as $backup"
+    fi
+}
+
+here="$(dirname "$0")"
+
+mkdir -p ~/.local/bin ~/.vim/autoload ~/.vim/bundle
+
 backup "bash_profile"
 backup "profile"
-backup "bash_login"
-backup "bashrc"
 
-ln -nfs $(pwd)/dot.bash_functions.sh "$HOME/.bash_functions"
-ln -nfs $(pwd)/dot.bash_login.sh "$HOME/.bash_login"
-ln -nfs $(pwd)/dot.bashrc.sh "$HOME/.bashrc"
-ln -nfs $(pwd)/dot.colordiffrc "$HOME/.colordiffrc"
-ln -nfs $(pwd)/dot.gemrc "$HOME/.gemrc"
-ln -nfs $(pwd)/dot.gitconfig "$HOME/.gitconfig"
-ln -nfs $(pwd)/dot.vimrc "$HOME/.vimrc"
+link_from_here "$here/dot.bash_functions.sh" "$HOME/.bash_functions"
+link_from_here "$here/dot.bash_login.sh"     "$HOME/.bash_login"
+link_from_here "$here/dot.bashrc.sh"         "$HOME/.bashrc"
+link_from_here "$here/dot.colordiffrc"       "$HOME/.colordiffrc"
+link_from_here "$here/dot.gemrc"             "$HOME/.gemrc"
+link_from_here "$here/dot.gitconfig"         "$HOME/.gitconfig"
+link_from_here "$here/dot.vimrc"             "$HOME/.vim/vimrc"
+link_from_here "$here/dot.ghci"              "$HOME/.ghci"
 
-mkdir -p ~/.local/bin
-ln -nfs $(pwd)/lessfilter-highlight.sh ~/.local/bin/lessfilter-highlight
+link_from_here "$here/lessfilter-highlight.sh" "$HOME/.local/bin/lessfilter-highlight"
 
 if [ "$(uname)" = 'Darwin' ]; then
-    sed "s#\${HOME}#$HOME#g" < $(pwd)/environment.plist.in > ~/Library/LaunchAgents/environment.plist
-    ln -nfs $(pwd)/ssh-keychain.plist ~/Library/LaunchAgents/
-    ln -nfs $(pwd)/library-path.plist ~/Library/LaunchAgents/
+    sed "s#\${HOME}#$HOME#g" < $here/environment.plist.in > ~/Library/LaunchAgents/environment.plist
+    sed "s#\${HOME}#$HOME#g" < $here/npm.plist.in > ~/Library/LaunchAgents/npm.plist
+    ln -nfs $here/ssh-keychain.plist ~/Library/LaunchAgents/
+    ln -nfs $here/library-path.plist ~/Library/LaunchAgents/
     read -p 'Enter API token for Homebrew: ' HOMEBREW_GITHUB_API_TOKEN
-    sed "s#\${HOMEBREW_GITHUB_API_TOKEN}#$HOMEBREW_GITHUB_API_TOKEN#g" < $(pwd)/homebrew.plist.in > ~/Library/LaunchAgents/homebrew.plist
+    sed "s#\${HOMEBREW_GITHUB_API_TOKEN}#$HOMEBREW_GITHUB_API_TOKEN#g" < $here/homebrew.plist.in > ~/Library/LaunchAgents/homebrew.plist
     [ ! -d ~/.gnupg ] && install -d -m 0700 ~/.gnupg
-    echo 'pinentry-program /usr/local/bin/pinentry-mac' >> ~/.gnupg/gpg-agent.conf
+    if ! grep '^[[:space:]]*pinentry-program ' ~/.gnupg/gpg-agent.conf &> /dev/null; then
+        echo 'pinentry-program /usr/local/bin/pinentry-mac' >> ~/.gnupg/gpg-agent.conf
+    fi
 fi
 
-mkdir -p ~/.vim/autoload ~/.vim/bundle
 curl -LSso ~/.vim/autoload/pathogen.vim https://tpo.pe/pathogen.vim
 
-git clone https://github.com/tpope/vim-sensible.git        ~/.vim/bundle/vim-sensible
-git clone https://github.com/itchyny/lightline.vim.git     ~/.vim/bundle/lightline.vim
-git clone https://github.com/tpope/vim-fugitive.git        ~/.vim/bundle/vim-fugitive
-git clone https://github.com/airblade/vim-gitgutter.git    ~/.vim/bundle/vim-gitgutter
-git clone https://github.com/w0rp/ale.git                  ~/.vim/bundle/ale
-git clone https://github.com/junegunn/fzf.vim.git          ~/.vim/bundle/fzf.vim
-git clone https://github.com/robbles/logstash.vim.git      ~/.vim/bundle/logstash.vim
-git clone https://github.com/derekwyatt/vim-scala.git      ~/.vim/bundle/vim-scala
-git clone https://github.com/rust-lang/rust.vim.git        ~/.vim/bundle/rust.vim
-git clone https://github.com/neovimhaskell/haskell-vim.git ~/.vim/bundle/haskell-vim
+get_vim_plugin tpope              vim-sensible
+get_vim_plugin tpope              vim-fugitive
+get_vim_plugin itchyny            lightline.vim
+get_vim_plugin airblade           vim-gitgutter
+get_vim_plugin w0rp               ale
+get_vim_plugin junegunn           fzf.vim
+get_vim_plugin robbles            logstash.vim
+get_vim_plugin derekwyatt         vim-scala
+get_vim_plugin rust-lang          rust.vim
+get_vim_plugin neovimhaskell      haskell-vim
+get_vim_plugin purescript-contrib purescript-vim
+get_vim_plugin FrigoEU            psc-ide-vim
 

@@ -3,23 +3,18 @@
 [ -r ~/.bash_secrets ] && . ~/.bash_secrets
 
 
-[ -r /usr/share/fzf/completion.bash ] && . /usr/share/fzf/completion.bash
-[ -r /usr/local/opt/fzf/shell/completion.bash ] && . /usr/local/opt/fzf/shell/completion.bash
-[ -r /usr/share/fzf/key-bindings.bash ] && . /usr/share/fzf/key-bindings.bash
-[ -r /usr/local/opt/fzf/shell/key-bindings.bash ] && . /usr/local/opt/fzf/shell/key-bindings.bash
-
 if [ "$(uname)" = 'Darwin' ]; then
     # Enable terminal colors on OS X
     export CLICOLOR=1
     # Reset path from launchctl
     __launchctl_path="$(launchctl getenv PATH)"
-    [ -n "$path" ] && export PATH="$__launchctl_path"
+    [ -n "$__launchctl_path" ] && export PATH="$__launchctl_path"
     # Open URIs with a generic open command
     export BROWSER=open
 
     [ -f ~/.iterm2_shell_integration.bash ] && . ~/.iterm2_shell_integration.bash
 
-    export NPM_CONFIG_PREFIX=$HOME/Library/Caches/npm-packages
+    [ -z "$NPM_CONFIG_PREFIX" ] && export NPM_CONFIG_PREFIX=$HOME/Library/Caches/npm-packages
 else
     export BROWSER=xdg-open
     export NPM_CONFIG_PREFIX=$HOME/.cache/npm-packages
@@ -139,6 +134,12 @@ else
         less "$1"
     }
 fi
+
+## Enable fzf
+[ -r /usr/share/fzf/completion.bash ] && . /usr/share/fzf/completion.bash
+[ -r /usr/local/opt/fzf/shell/completion.bash ] && . /usr/local/opt/fzf/shell/completion.bash
+[ -r /usr/share/fzf/key-bindings.bash ] && . /usr/share/fzf/key-bindings.bash
+[ -r /usr/local/opt/fzf/shell/key-bindings.bash ] && . /usr/local/opt/fzf/shell/key-bindings.bash
 
 ## Enable bash_completion
 [ -r /usr/share/bash-completion/bash_completion ] && . /usr/share/bash-completion/bash_completion

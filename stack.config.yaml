@@ -1,0 +1,10 @@
+system-ghc: true
+install-ghc: true
+
+templates:
+  params:
+    author-name: Olli Helenius
+    author-email: liff@iki.fi
+    github-username: liff
+    scm-init: git
+

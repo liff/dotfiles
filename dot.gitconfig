@@ -42,5 +42,5 @@
 	prune = true
 
 [include]
-	path = .gitconfig.local
+	path = config.local
 

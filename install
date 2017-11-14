@@ -28,7 +28,12 @@ link_from_here() {
 
 here="$(dirname "$0")"
 
-mkdir -p ~/.local/bin ~/.vim/autoload ~/.vim/bundle
+mkdir -p                \
+    ~/.local/bin        \
+    ~/.vim/autoload     \
+    ~/.vim/bundle       \
+    ~/.config/git       \
+    ~/.config/colordiff
 
 backup "bash_profile"
 backup "profile"
@@ -36,9 +41,9 @@ backup "profile"
 link_from_here "$here/dot.bash_functions.sh" "$HOME/.bash_functions"
 link_from_here "$here/dot.bash_login.sh"     "$HOME/.bash_login"
 link_from_here "$here/dot.bashrc.sh"         "$HOME/.bashrc"
-link_from_here "$here/dot.colordiffrc"       "$HOME/.colordiffrc"
+link_from_here "$here/dot.colordiffrc"       "$HOME/.config/colordiff/colordiffrc"
 link_from_here "$here/dot.gemrc"             "$HOME/.gemrc"
-link_from_here "$here/dot.gitconfig"         "$HOME/.gitconfig"
+link_from_here "$here/dot.gitconfig"         "$HOME/.config/git/config"
 link_from_here "$here/dot.vimrc"             "$HOME/.vim/vimrc"
 link_from_here "$here/dot.ghci"              "$HOME/.ghci"
 

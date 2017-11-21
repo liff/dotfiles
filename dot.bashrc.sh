@@ -112,12 +112,18 @@ fi
 command_available xdg-open && alias open="xdg-open"
 
 # Figure out whether we should use OSX's default version of ls, gls or ls as GNU ls
-if command_available gls && gls --version &>/dev/null; then
+if command_available exa; then
+    alias ls="exa --grid --across --group-directories-first --color-scale --git"
+    alias ll="exa --color-scale --long --all --group-directories-first --header --git"
+elif command_available gls && gls --version &>/dev/null; then
     alias ls="gls --format=across --classify --size --color=auto"
+    alias ll="gls --format=long --classify --size --color=auto --all"
 elif ls --version &>/dev/null; then
     alias ls="ls --format=across --classify --size --color=auto"
+    alias ll="ls --format=long --classify --size --color=auto --all"
 else
     alias ls="ls -xFsG"
+    alias ll="ls -lxFsGa"
 fi
 
 command_available colordiff && alias diff="colordiff"

@@ -214,10 +214,16 @@ __update_ps1() {
     [ -n "$__rbenv_prompt" ] && is_ruby_project . && PS1="${__rbenv_prompt} $PS1"
 }
 
-case "$TERM" in
-    xterm*) PROMPT_COMMAND='echo -ne "\033]0;${USER}@${HOSTNAME}: ${PWD}\007"' ;;
-esac
+if [ -r /etc/profile.d/vte.sh ]; then
+    . /etc/profile.d/vte.sh
+    case "$TERM" in
+        xterm*|vte*) PROMPT_COMMAND="__vte_prompt_command" ;;
+    esac
+else
+    case "$TERM" in
+        xterm*|vte*) PROMPT_COMMAND='echo -ne "\033]0;${USER}@${HOSTNAME}: ${PWD}\007"' ;;
+    esac
+fi
 
 PROMPT_COMMAND="__update_ps1;$PROMPT_COMMAND"
-
 

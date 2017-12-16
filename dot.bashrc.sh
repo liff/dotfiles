@@ -214,7 +214,7 @@ __update_ps1() {
     [ -n "$__rbenv_prompt" ] && is_ruby_project . && PS1="${__rbenv_prompt} $PS1"
 }
 
-if [ -r /etc/profile.d/vte.sh ]; then
+if [ -r /etc/profile.d/vte.sh -a -n "$VTE_VERSION" ]; then
     . /etc/profile.d/vte.sh
     case "$TERM" in
         xterm*|vte*) PROMPT_COMMAND="__vte_prompt_command" ;;

@@ -13,28 +13,42 @@ backup() {
 get_vim_plugin() {
     local gh_user="$1"
     local repo="$2"
-    test -d ~/.vim/bundle/$repo || git clone https://github.com/$gh_user/$repo.git ~/.vim/bundle/$repo
+    test -d ~/.config/vim/bundle/$repo || git clone https://github.com/$gh_user/$repo.git ~/.config/vim/bundle/$repo
 }
 
 link_from_here() {
     local source="$1"
     local target="$2"
-    local backup="$(dirname "$target")/dot$(basename "$target").bak"
-    if [ "$(readlink "$target")" != "$source" ]; then
-        mv "$target" "$(dirname "$target")/dot.$(basename "$target").bak"
+    local backup="$(dirname "$target")/$(basename "$target").bak"
+    if [ -f "$target" -a "$(readlink "$target")" != "$source" ]; then
+        mv "$target" "$backup"
         echo "Replaced $target with link to $source; backed up as $backup"
     fi
+    ln -nsf "$source" "$target"
 }
 
-here="$(dirname "$0")"
+here="$(pwd)" # "$(dirname "$0")"
 
-mkdir -p                \
-    ~/.local/bin        \
-    ~/.vim/autoload     \
-    ~/.vim/bundle       \
-    ~/.stack            \
-    ~/.config/git       \
+mkdir -p                   \
+    ~/.local/bin           \
+    ~/.config/vim/autoload \
+    ~/.config/vim/bundle   \
+    ~/.stack               \
+    ~/.config/git          \
     ~/.config/colordiff
+
+if [ "$(uname)" != 'Darwin' ]; then
+    mkdir -p                    \
+        ~/.config/intellij-idea \
+        ~/.cache/coursier       \
+        ~/.config/rubygems      \
+        ~/.config/npm
+    link_from_here "$here/dot.pam_environment" "$HOME/.pam_environment"
+    link_from_here "$here/dot.gemrc"           "$HOME/.config/rubygems/gemrc"
+    link_from_here "$here/dot.npmrc"           "$HOME/.config/npm/npmrc"
+else
+    link_from_here "$here/dot.gemrc"           "$HOME/.gemrc"
+fi
 
 backup "bash_profile"
 backup "profile"
@@ -43,9 +57,8 @@ link_from_here "$here/dot.bash_functions.sh" "$HOME/.bash_functions"
 link_from_here "$here/dot.bash_login.sh"     "$HOME/.bash_login"
 link_from_here "$here/dot.bashrc.sh"         "$HOME/.bashrc"
 link_from_here "$here/dot.colordiffrc"       "$HOME/.config/colordiff/colordiffrc"
-link_from_here "$here/dot.gemrc"             "$HOME/.gemrc"
 link_from_here "$here/dot.gitconfig"         "$HOME/.config/git/config"
-link_from_here "$here/dot.vimrc"             "$HOME/.vim/vimrc"
+link_from_here "$here/dot.vimrc"             "$HOME/.config/vim/vimrc"
 link_from_here "$here/dot.ghci"              "$HOME/.ghci"
 link_from_here "$here/stack.config.yaml"     "$HOME/.stack/config.yaml"
 
@@ -64,7 +77,7 @@ if [ "$(uname)" = 'Darwin' ]; then
     fi
 fi
 
-curl -LSso ~/.vim/autoload/pathogen.vim https://tpo.pe/pathogen.vim
+curl -LSso ~/.config/vim/autoload/pathogen.vim https://tpo.pe/pathogen.vim
 
 get_vim_plugin tpope              vim-sensible
 get_vim_plugin tpope              vim-fugitive
@@ -76,6 +89,7 @@ get_vim_plugin robbles            logstash.vim
 get_vim_plugin derekwyatt         vim-scala
 get_vim_plugin rust-lang          rust.vim
 get_vim_plugin neovimhaskell      haskell-vim
+get_vim_plugin alx741             vim-hindent
 get_vim_plugin purescript-contrib purescript-vim
 get_vim_plugin FrigoEU            psc-ide-vim
 

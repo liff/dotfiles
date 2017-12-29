@@ -1,9 +1,12 @@
+set viminfo+=n$XDG_CACHE_HOME/vim/viminfo
+set runtimepath=$XDG_CONFIG_HOME/vim,$XDG_CONFIG_HOME/vim/after,$VIM,$VIMRUNTIME
+set rtp+=/usr/local/opt/fzf
+
 execute pathogen#infect()
 
 set showcmd
 set listchars=tab:»⋅,trail:⁖
 set list
-set rtp+=/usr/local/opt/fzf
 set expandtab
 
 map <silent> <Leader>t :Buffers<CR>

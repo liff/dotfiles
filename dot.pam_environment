@@ -1,0 +1,32 @@
+XDG_CACHE_HOME                  DEFAULT=@{HOME}/.cache
+XDG_CONFIG_HOME                 DEFAULT=@{HOME}/.config
+XDG_DATA_HOME                   DEFAULT=@{HOME}/.local/share
+
+ICEAUTHORITY                    DEFAULT=${XDG_RUNTIME_DIR}/ICEauthority
+
+GNUPGHOME                       DEFAULT=${XDG_CONFIG_HOME}/gnupg
+
+EDITOR                          DEFAULT=vim
+
+GEMRC                           DEFAULT=${XDG_CONFIG_HOME}/rubygems/gemrc
+GEM_HOME                        DEFAULT=${XDG_DATA_HOME}/gem
+GEM_SPEC_CACHE                  DEFAULT=${XDG_CACHE_HOME}/gem
+
+_JAVA_OPTIONS                   DEFAULT=-Djava.util.prefs.userRoot=${XDG_CONFIG_HOME}/java
+
+NPM_CONFIG_USERCONFIG           DEFAULT=${XDG_CONFIG_HOME}/npm/npmrc
+
+IDEA_VM_OPTIONS                 DEFAULT=${XDG_CONFIG_HOME}/intellij-idea/idea.vmoptions
+IDEA_PROPERTIES                 DEFAULT=${XDG_CONFIG_HOME}/intellij-idea/idea.properties
+
+__GL_SHADER_DISK_CACHE_PATH     DEFAULT=${XDG_CACHE_HOME}/nv
+CUDA_CACHE_PATH                 DEFAULT=${XDG_CACHE_HOME}/nv
+
+STACK_ROOT                      DEFAULT=${XDG_DATA_HOME}/stack
+
+RUSTUP_HOME                     DEFAULT=${XDG_DATA_HOME}/rustup
+CARGO_HOME                      DEFAULT=${XDG_DATA_HOME}/cargo
+
+MYSQL_HISTFILE                  DEFAULT=${XDG_DATA_HOME}/mysql/history
+
+

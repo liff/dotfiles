@@ -15,13 +15,17 @@ if [ "$(uname)" = 'Darwin' ]; then
     [ -f ~/.iterm2_shell_integration.bash ] && . ~/.iterm2_shell_integration.bash
 
     [ -z "$NPM_CONFIG_PREFIX" ] && export NPM_CONFIG_PREFIX=$HOME/Library/Caches/npm-packages
+    export LESSHISTFILE="$HOME/Library/Caches/lesshst"
 else
     export BROWSER=xdg-open
     export NPM_CONFIG_PREFIX=$HOME/.cache/npm-packages
+    export LESSHISTFILE="$XDG_DATA_HOME/lesshst"
+    export NODE_REPL_HISTORY="$XDG_DATA_HOME/node_repl_history"
     prepend_to_path_if_exists $HOME/.cargo/bin $HOME/.local/bin $HOME/.cache/npm-packages/bin
 fi
 
 # Don't put duplicate or same successive entries in the history
+[ -n "$XDG_DATA_HOME" ] && export HISTFILE=$XDG_DATA_HOME/bash/history
 export HISTCONTROL=ignoredups:ignoreboth
 export HISTSIZE=2147483647
 
@@ -31,6 +35,7 @@ export PROMPT_DIRTRIM=3
 # Set vim as default editor
 export VISUAL=vim
 export EDITOR=$VISUAL
+[ -n "$XDG_CONFIG_HOME" ] && export VIMINIT='let $MYVIMRC="$XDG_CONFIG_HOME/vim/vimrc" | source $MYVIMRC'
 
 # Configure less
 export VIEW=less

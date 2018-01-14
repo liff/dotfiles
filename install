@@ -40,9 +40,12 @@ mkdir -p                   \
 if [ "$(uname)" != 'Darwin' ]; then
     mkdir -p                    \
         ~/.config/intellij-idea \
-        ~/.cache/coursier       \
         ~/.config/rubygems      \
-        ~/.config/npm
+        ~/.config/npm           \
+        ~/.cache/coursier       \
+        ~/.cache/openssl        \
+        ~/.local/share/bash     \
+        ~/.local/share/mysql
     link_from_here "$here/dot.pam_environment" "$HOME/.pam_environment"
     link_from_here "$here/dot.gemrc"           "$HOME/.config/rubygems/gemrc"
     link_from_here "$here/dot.npmrc"           "$HOME/.config/npm/npmrc"
@@ -74,6 +77,10 @@ if [ "$(uname)" = 'Darwin' ]; then
     [ ! -d ~/.gnupg ] && install -d -m 0700 ~/.gnupg
     if ! grep '^[[:space:]]*pinentry-program ' ~/.gnupg/gpg-agent.conf &> /dev/null; then
         echo 'pinentry-program /usr/local/bin/pinentry-mac' >> ~/.gnupg/gpg-agent.conf
+    fi
+else
+    if ! grep '^[[:space:]]*pinentry-program ' ~/.config/gnupg/gpg-agent.conf &> /dev/null; then
+        echo 'pinentry-program /usr/bin/pinentry-gnome3' >> ~/.config/gnupg/gpg-agent.conf
     fi
 fi
 

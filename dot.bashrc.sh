@@ -16,11 +16,13 @@ if [ "$(uname)" = 'Darwin' ]; then
 
     [ -z "$NPM_CONFIG_PREFIX" ] && export NPM_CONFIG_PREFIX=$HOME/Library/Caches/npm-packages
     export LESSHISTFILE="$HOME/Library/Caches/lesshst"
+    export HTTPIE_CONFIG_DIR="$HOME/Library/Preferences/httpie"
 else
     export BROWSER=xdg-open
     export NPM_CONFIG_PREFIX=$HOME/.cache/npm-packages
     export LESSHISTFILE="$XDG_DATA_HOME/lesshst"
     export NODE_REPL_HISTORY="$XDG_DATA_HOME/node_repl_history"
+    export HTTPIE_CONFIG_DIR="$XDG_CONFIG_HOME/httpie"
     prepend_to_path_if_exists $HOME/.cargo/bin $HOME/.local/bin $HOME/.cache/npm-packages/bin
 fi
 
@@ -145,6 +147,8 @@ else
         less "$1"
     }
 fi
+
+alias amm="amm --home $HOME/.local/share/ammonite"
 
 ## Enable fzf
 [ -r /usr/share/fzf/completion.bash ] && . /usr/share/fzf/completion.bash

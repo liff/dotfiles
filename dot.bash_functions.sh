@@ -17,7 +17,9 @@ prepend_to_path_if_exists() {
 }
 
 is_ruby_project() {
-    if [ "$(realpath "$1")" = "$HOME" -o "$(realpath "$1")" = '/' ]; then
+    if [ ! -d "$1" ]; then
+        return 0
+    elif [ "$(realpath "$1")" = "$HOME" -o "$(realpath "$1")" = '/' ]; then
         return 1
     elif [ "$(echo "$1"/*.rb)" != "$1/*.rb" -o -f "$1"/Gemfile -o -f "$1"/*.gemspec ]; then
         return 0

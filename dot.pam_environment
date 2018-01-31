@@ -37,5 +37,9 @@ RBENV_ROOT                      DEFAULT=${XDG_DATA_HOME}/rbenv
 
 YOURKIT_HOME                    DEFAULT=${XDG_CACHE_HOME}/yjp
 
-visualvm_default_userdir        DEFAULT=${XDG_DATA_HOME}/visualvm
+BUNDLE_USER_CONFIG              DEFAULT=${XDG_CONFIG_HOME}/bundle
+BUNDLE_USER_CACHE               DEFAULT=${XDG_CACHE_HOME}/bundle
+BUNDLE_USER_PLUGIN              DEFAULT=${XDG_DATA_HOME}/bundle
+
+GRADLE_USER_HOME                DEFAULT=${XDG_DATA_HOME}/gradle
 

@@ -149,6 +149,7 @@ else
 fi
 
 alias amm="amm --home $HOME/.local/share/ammonite"
+alias wget="wget --hsts-file=$HOME/.cache/wget-hsts"
 
 ## Enable fzf
 [ -r /usr/share/fzf/completion.bash ] && . /usr/share/fzf/completion.bash

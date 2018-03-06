@@ -43,7 +43,6 @@ export EDITOR=$VISUAL
 export VIEW=less
 export PAGER="$VIEW"
 export LESS="-Ri -b1024 -X"
-command_available vimpager && export MANPAGER=vimpager
 
 # Configure Git prompt
 export GIT_PS1_SHOWDIRTYSTATE=yes

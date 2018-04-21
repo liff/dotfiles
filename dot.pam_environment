@@ -29,7 +29,7 @@ CARGO_HOME                      DEFAULT=${XDG_DATA_HOME}/cargo
 
 MYSQL_HISTFILE                  DEFAULT=${XDG_DATA_HOME}/mysql/history
 
-CABAL_CONFIG                    DEFAULT=${XDG_DATA_HOME}/cabal/config
+CABAL_CONFIG                    DEFAULT=${XDG_CONFIG_HOME}/cabal/config
 
 RANDFILE                        DEFAULT=${XDG_CACHE_HOME}/openssl/rnd
 

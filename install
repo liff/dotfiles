@@ -35,6 +35,7 @@ mkdir -p                   \
     ~/.config/vim/bundle   \
     ~/.stack               \
     ~/.config/git          \
+    ~/.config/gnupg        \
     ~/.config/colordiff    \
     ~/.config/python
 

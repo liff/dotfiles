@@ -33,7 +33,7 @@ mkdir -p                   \
     ~/.local/bin           \
     ~/.config/vim/autoload \
     ~/.config/vim/bundle   \
-    ~/.stack               \
+    ~/.local/share/stack   \
     ~/.config/git          \
     ~/.config/gnupg        \
     ~/.config/colordiff    \
@@ -66,7 +66,7 @@ link_from_here "$here/dot.gitconfig"         "$HOME/.config/git/config"
 link_from_here "$here/gitignore.global"      "$HOME/.config/git/ignore"
 link_from_here "$here/dot.vimrc"             "$HOME/.config/vim/vimrc"
 link_from_here "$here/dot.ghci"              "$HOME/.ghci"
-link_from_here "$here/stack.config.yaml"     "$HOME/.stack/config.yaml"
+link_from_here "$here/stack.config.yaml"     "$HOME/.local/share/stack/config.yaml"
 link_from_here "$here/startup.py"            "$HOME/.config/python/startup.py"
 
 link_from_here "$here/lessfilter-highlight.sh" "$HOME/.local/bin/lessfilter-highlight"

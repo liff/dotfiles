@@ -8,7 +8,7 @@ if xdg_data_home is None:
 else:
     data_dir = os.path.join(xdg_data_home, "python")
 
-os.makedirs(data_dir)
+os.makedirs(data_dir, exist_ok = True)
 
 history_file = os.path.join(data_dir, 'history')
 

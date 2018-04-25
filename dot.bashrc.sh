@@ -19,10 +19,6 @@ if [ "$(uname)" = 'Darwin' ]; then
     export HTTPIE_CONFIG_DIR="$HOME/Library/Preferences/httpie"
 else
     export BROWSER=xdg-open
-    export NPM_CONFIG_PREFIX=$HOME/.cache/npm-packages
-    export LESSHISTFILE="$XDG_DATA_HOME/lesshst"
-    export NODE_REPL_HISTORY="$XDG_DATA_HOME/node_repl_history"
-    export HTTPIE_CONFIG_DIR="$XDG_CONFIG_HOME/httpie"
     prepend_to_path_if_exists $HOME/.cargo/bin $HOME/.local/bin $HOME/.cache/npm-packages/bin
 fi
 
@@ -33,16 +29,6 @@ export HISTSIZE=2147483647
 
 # Configure Bash prompt
 export PROMPT_DIRTRIM=3
-
-# Set vim as default editor
-export VISUAL=vim
-export EDITOR=$VISUAL
-[ -n "$XDG_CONFIG_HOME" ] && export VIMINIT='let $MYVIMRC="$XDG_CONFIG_HOME/vim/vimrc" | source $MYVIMRC'
-
-# Configure less
-export VIEW=less
-export PAGER="$VIEW"
-export LESS="-Ri -b1024 -X"
 
 # Configure Git prompt
 export GIT_PS1_SHOWDIRTYSTATE=yes

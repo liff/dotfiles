@@ -23,7 +23,7 @@
 	whitespace = red reverse
 
 [user]
-	useconfigonly = true
+	useConfigOnly = true
 
 [alias]
 	st = status -bs

@@ -9,9 +9,13 @@ SAVEHIST=2147483647
 setopt appendhistory nomatch notify
 unsetopt autocd beep extendedglob
 bindkey -e
+bindkey "^[[1;5C" forward-word
+bindkey "^[[1;5D" backward-word
+bindkey "^[[H" beginning-of-line
+bindkey "^[[F" end-of-line
 # End of lines configured by zsh-newuser-install
 # The following lines were added by compinstall
-zstyle :compinstall filename '/home/olli/.zshrc'
+zstyle :compinstall filename '/home/olli/.config/zsh/.zshrc'
 
 autoload -Uz compinit
 compinit
@@ -25,6 +29,13 @@ compinit
 
 # Configure GNUPG.
 export GPG_TTY=$(tty)
+
+# Configure Git prompt
+export GIT_PS1_SHOWDIRTYSTATE=yes
+export GIT_PS1_SHOWSTASHSTATE=yes
+export GIT_PS1_SHOWUNTRACKEDFILES=yes
+export GIT_PS1_SHOWUPSTREAM=yes
+test -r /usr/share/git/git-prompt.sh && . /usr/share/git/git-prompt.sh
 
 # Configure lesspipe.
 if command_available lesspipe; then
@@ -42,6 +53,15 @@ export RUST_BACKTRACE=1
 
 # Configure GCC Colors
 export GCC_COLORS='error=01;31:warning=00;33:note=00;36:caret=01;32:locus=01:quote=01'
+
+# Configure dircolors if needed
+if [ -r ~/.dir_colors ]; then
+    DIR_COLORS_DB=~/.dir_colors
+else
+    DIR_COLORS_DB=""
+fi
+command_available dircolors && eval "$(dircolors --bourne-shell $DIR_COLORS_DB)"
+command_available gdircolors && eval "$(gdircolors --bourne-shell $DIR_COLORS_DB)"
 
 
 ## Set aliases
@@ -82,4 +102,10 @@ else
     [ -r /usr/share/fzf/key-bindings.zsh ] && . /usr/share/fzf/key-bindings.zsh
     [ -r /usr/local/opt/fzf/shell/key-bindings.zsh ] && . /usr/local/opt/fzf/shell/key-bindings.zsh
 fi
+
+test -r /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh \
+    && . /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+
+setopt PROMPT_SUBST
+PS1='%F{blue}%(5~|%-2~/…/%3~|%4~)%F{magenta}$(__git_ps1 "(%s)")%(?|%F{yellow}|%F{red})⟫%f '
 

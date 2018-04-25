@@ -1,11 +1,14 @@
+PATH                            DEFAULT=@{HOME}/.local/bin:@{HOME}/.local/share/cargo/bin:@{HOME}/.cache/npm-packages/bin${PATH}
+
 XDG_CACHE_HOME                  DEFAULT=@{HOME}/.cache
 XDG_CONFIG_HOME                 DEFAULT=@{HOME}/.config
 XDG_DATA_HOME                   DEFAULT=@{HOME}/.local/share
 
-EDITOR                          DEFAULT=vim
-VISUAL                          DEFAULT=vim
+EDITOR                          DEFAULT=nvim
+VISUAL                          DEFAULT=nvim
 VIEW                            DEFAULT=less
-PAGER                           DEFAULT=$VIEW
+PAGER                           DEFAULT=${VIEW}
+LESS                            DEFAULT=-Ri -b1024 -X
 
 XCOMPCACHE                      DEFAULT=${XDG_CACHE_HOME}/xcompose
 ICEAUTHORITY                    DEFAULT=${XDG_RUNTIME_DIR}/ICEauthority
@@ -24,6 +27,7 @@ _JAVA_OPTIONS                   DEFAULT="-Djava.util.prefs.userRoot=${XDG_CONFIG
 
 NODE_REPL_HISTORY               DEFAULT=$XDG_DATA_HOME/node_repl_history
 NPM_CONFIG_USERCONFIG           DEFAULT=${XDG_CONFIG_HOME}/npm/npmrc
+NPM_CONFIG_PREFIX               DEFAULT=${XDG_CACHE_HOME}/npm-packages
 
 IDEA_VM_OPTIONS                 DEFAULT=${XDG_CONFIG_HOME}/intellij-idea/idea.vmoptions
 IDEA_PROPERTIES                 DEFAULT=${XDG_CONFIG_HOME}/intellij-idea/idea.properties

@@ -108,5 +108,7 @@ test -r /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.z
     && . /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 setopt PROMPT_SUBST
-PS1='%F{blue}%(5~|%-2~/…/%3~|%4~)%F{magenta}$(__git_ps1 "(%s)")%(?|%F{yellow}|%F{red})⟫%f '
+unset RPROMPT
+RPS1='%F{blue}%(5~|%-2~/…/%3~|%4~)%f'
+PS1='%F{magenta}$(__git_ps1 "(%s)")%(?|%F{yellow}|%F{red})⟫%f '
 

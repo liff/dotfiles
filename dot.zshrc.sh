@@ -35,6 +35,7 @@ export GIT_PS1_SHOWDIRTYSTATE=yes
 export GIT_PS1_SHOWSTASHSTATE=yes
 export GIT_PS1_SHOWUNTRACKEDFILES=yes
 export GIT_PS1_SHOWUPSTREAM=yes
+test -r /run/current-system/sw/share/git/contrib/completion/git-prompt.sh && . /run/current-system/sw/share/git/contrib/completion/git-prompt.sh
 test -r /usr/share/git/git-prompt.sh && . /usr/share/git/git-prompt.sh
 
 # Configure lesspipe.

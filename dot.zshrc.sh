@@ -2,25 +2,6 @@ command_available() {
     type "$1" &>/dev/null
 }
 
-# Lines configured by zsh-newuser-install
-HISTFILE=~/.local/share/zsh/history
-HISTSIZE=2147483647
-SAVEHIST=2147483647
-setopt appendhistory nomatch notify
-unsetopt autocd beep extendedglob
-bindkey -e
-bindkey "^[[1;5C" forward-word
-bindkey "^[[1;5D" backward-word
-bindkey "^[[H" beginning-of-line
-bindkey "^[[F" end-of-line
-# End of lines configured by zsh-newuser-install
-# The following lines were added by compinstall
-zstyle :compinstall filename '/home/olli/.config/zsh/.zshrc'
-
-autoload -Uz compinit
-compinit
-# End of lines added by compinstall
-
 
 ## Configuration for things that use environment variables.
 
@@ -28,7 +9,12 @@ compinit
 [ -z "$BROWSER" ] && command_available xdg-open export BROWSER=xdg-open
 
 # Configure GNUPG.
-export GPG_TTY=$(tty)
+[ -z "$GPG_TTY" ] && export GPG_TTY=$(tty)
+
+# Configure completion
+zstyle :compinstall filename $ZDOTDIR/.zshrc
+autoload -Uz compinit
+compinit
 
 # Configure Git prompt
 export GIT_PS1_SHOWDIRTYSTATE=yes
@@ -63,6 +49,21 @@ else
 fi
 command_available dircolors && eval "$(dircolors --bourne-shell $DIR_COLORS_DB)"
 command_available gdircolors && eval "$(gdircolors --bourne-shell $DIR_COLORS_DB)"
+
+# Configure history
+HISTSIZE=2147483647
+SAVEHIST=2147483647
+HISTFILE=$XDG_DATA_HOME/zsh/history
+mkdir -p $(dirname $HISTFILE)
+
+# Other shell settings
+setopt appendhistory nomatch notify
+unsetopt autocd beep extendedglob
+bindkey -e
+bindkey "^[[1;5C" forward-word
+bindkey "^[[1;5D" backward-word
+bindkey "^[[H" beginning-of-line
+bindkey "^[[F" end-of-line
 
 
 ## Set aliases
@@ -107,6 +108,8 @@ fi
 test -r /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh \
     && . /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
+
+## Configure prompt
 setopt PROMPT_SUBST
 unset RPROMPT
 RPS1='%F{blue}%(5~|%-2~/…/%3~|%4~)%f'

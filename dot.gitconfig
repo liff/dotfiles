@@ -1,6 +1,6 @@
 [core]
 	pager = "diff-so-fancy | less -RXF"
-	editor = vim
+	editor = nvim
 
 [submodule]
 	fetchJobs = 4

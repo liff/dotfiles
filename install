@@ -40,13 +40,15 @@ mkdir -p                   \
     ~/.config/python
 
 if [ "$(uname)" != 'Darwin' ]; then
-    mkdir -p                    \
-        ~/.config/intellij-idea \
-        ~/.config/rubygems      \
-        ~/.config/npm           \
-        ~/.cache/coursier       \
-        ~/.cache/openssl        \
-        ~/.local/share/bash     \
+    mkdir -p                         \
+        ~/.config/intellij-idea      \
+        ~/.local/share/intellij-idea \
+        ~/.config/rubygems           \
+        ~/.config/npm                \
+        ~/.cache/coursier            \
+        ~/.cache/openssl             \
+        ~/.cache/xcompose            \
+        ~/.local/share/bash          \
         ~/.local/share/mysql
     link_from_here "$here/dot.pam_environment" "$HOME/.pam_environment"
     link_from_here "$here/dot.gemrc"           "$HOME/.config/rubygems/gemrc"
@@ -58,16 +60,17 @@ fi
 backup "bash_profile"
 backup "profile"
 
-link_from_here "$here/dot.bash_functions.sh" "$HOME/.bash_functions"
-link_from_here "$here/dot.bash_login.sh"     "$HOME/.bash_login"
-link_from_here "$here/dot.bashrc.sh"         "$HOME/.bashrc"
-link_from_here "$here/dot.colordiffrc"       "$HOME/.config/colordiff/colordiffrc"
-link_from_here "$here/dot.gitconfig"         "$HOME/.config/git/config"
-link_from_here "$here/gitignore.global"      "$HOME/.config/git/ignore"
-link_from_here "$here/dot.vimrc"             "$HOME/.config/vim/vimrc"
-link_from_here "$here/dot.ghci"              "$HOME/.ghci"
-link_from_here "$here/stack.config.yaml"     "$HOME/.local/share/stack/config.yaml"
-link_from_here "$here/startup.py"            "$HOME/.config/python/startup.py"
+link_from_here "$here/dot.bash_functions.sh"   "$HOME/.bash_functions"
+link_from_here "$here/dot.bash_login.sh"       "$HOME/.bash_login"
+link_from_here "$here/dot.bashrc.sh"           "$HOME/.bashrc"
+link_from_here "$here/dot.colordiffrc"         "$HOME/.config/colordiff/colordiffrc"
+link_from_here "$here/dot.gitconfig"           "$HOME/.config/git/config"
+link_from_here "$here/gitignore.global"        "$HOME/.config/git/ignore"
+link_from_here "$here/dot.vimrc"               "$HOME/.config/vim/vimrc"
+link_from_here "$here/dot.ghci"                "$HOME/.ghci"
+link_from_here "$here/stack.config.yaml"       "$HOME/.local/share/stack/config.yaml"
+link_from_here "$here/startup.py"              "$HOME/.config/python/startup.py"
+link_from_here "$here/idea.properties"         "$HOME/.config/intellij-idea/idea.properties"
 
 link_from_here "$here/lessfilter-highlight.sh" "$HOME/.local/bin/lessfilter-highlight"
 

@@ -1,0 +1,8 @@
+[Unit]
+Description=Sync KeePass changes to Dropbox
+Conflicts=keepass-sync-from-dropbox.service
+
+[Service]
+Type=oneshot
+ExecStart=/run/current-system/sw/bin/rclone -v sync ${HOME}/Asiakirjat/KeePass/ dropbox:/Apps/KeePass/
+

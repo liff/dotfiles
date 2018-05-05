@@ -1,0 +1,13 @@
+[Unit]
+Description=Periodically sync KeePass changes from Dropbox
+Wants=network-online.target
+After=network-online.target
+
+[Timer]
+OnBootSec=5min
+OnUnitActiveSec=317
+Unit=keepass-sync-from-dropbox.service
+
+[Install]
+WantedBy=timers.target
+

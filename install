@@ -41,6 +41,7 @@ mkdir -p                   \
 
 if [ "$(uname)" != 'Darwin' ]; then
     mkdir -p                         \
+        ~/.config/systemd/user       \
         ~/.config/intellij-idea      \
         ~/.local/share/intellij-idea \
         ~/.config/rubygems           \
@@ -53,6 +54,14 @@ if [ "$(uname)" != 'Darwin' ]; then
     link_from_here "$here/dot.pam_environment" "$HOME/.pam_environment"
     link_from_here "$here/dot.gemrc"           "$HOME/.config/rubygems/gemrc"
     link_from_here "$here/dot.npmrc"           "$HOME/.config/npm/npmrc"
+
+    link_from_here "$here/systemd/keepass-sync-from-dropbox.service" "$HOME/.config/systemd/user/keepass-sync-from-dropbox.service"
+    link_from_here "$here/systemd/keepass-sync-to-dropbox.service" "$HOME/.config/systemd/user/keepass-sync-from-dropbox.service"
+    link_from_here "$here/systemd/keepass-sync-from-dropbox.timer" "$HOME/.config/systemd/user/keepass-sync-from-dropbox.timer"
+    link_from_here "$here/systemd/keepass-sync-to-dropbox.path" "$HOME/.config/systemd/user/keepass-sync-to-dropbox.path"
+    mkdir -p $HOME/Asiakirjat/KeePass
+    systemctl --user enable keepass-sync-from-dropbox.path
+    systemctl --user enable keepass-sync-from-dropbox.timer
 else
     link_from_here "$here/dot.gemrc"           "$HOME/.gemrc"
 fi
@@ -73,6 +82,7 @@ link_from_here "$here/startup.py"              "$HOME/.config/python/startup.py"
 link_from_here "$here/idea.properties"         "$HOME/.config/intellij-idea/idea.properties"
 
 link_from_here "$here/lessfilter-highlight.sh" "$HOME/.local/bin/lessfilter-highlight"
+
 
 if [ "$(uname)" = 'Darwin' ]; then
     sed "s#\${HOME}#$HOME#g" < $here/environment.plist.in > ~/Library/LaunchAgents/environment.plist

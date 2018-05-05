@@ -1,0 +1,13 @@
+[Unit]
+Description=Sync KeePass changes to Dropbox
+Wants=network-online.target
+Before=keepass-sync-from-dropbox.service
+
+[Path]
+PathChanged=%h/Asiakirjat/KeePass/
+MakeDirectory=true
+Unit=keepass-sync-to-dropbox.service
+
+[Install]
+WantedBy=paths.target
+

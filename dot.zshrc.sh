@@ -110,6 +110,7 @@ test -r /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.z
 
 
 ## Configure prompt
+test -r /etc/profile.d/vte.sh && . /etc/profile.d/vte.sh
 setopt PROMPT_SUBST
 unset RPROMPT
 RPS1='%F{blue}%(5~|%-2~/…/%3~|%4~)%f'

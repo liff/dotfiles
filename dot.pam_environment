@@ -1,4 +1,4 @@
-PATH                            DEFAULT=@{HOME}/.local/bin:@{HOME}/.local/share/cargo/bin:@{HOME}/.cache/npm-packages/bin${PATH}
+PATH                            DEFAULT=@{HOME}/.local/bin:@{HOME}/.local/share/cargo/bin:@{HOME}/.cache/npm-packages/bin:${PATH}
 
 XDG_CACHE_HOME                  DEFAULT=@{HOME}/.cache
 XDG_CONFIG_HOME                 DEFAULT=@{HOME}/.config

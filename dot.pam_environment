@@ -8,7 +8,7 @@ EDITOR                          DEFAULT=nvim
 VISUAL                          DEFAULT=nvim
 VIEW                            DEFAULT=less
 PAGER                           DEFAULT=${VIEW}
-LESS                            DEFAULT=-Ri -b1024 -X
+LESS                            DEFAULT="-Ri -b1024 -X"
 
 XCOMPOSECACHE                   DEFAULT=${XDG_CACHE_HOME}/xcompose
 ICEAUTHORITY                    DEFAULT=${XDG_RUNTIME_DIR}/ICEauthority
@@ -64,4 +64,6 @@ PYTHONSTARTUP                   DEFAULT=${XDG_CONFIG_HOME}/python/startup.py
 PYLINTHOME                      DEFAULT=${XDG_CACHE_HOME}/pylint
 
 DOCKER_CONFIG                   DEFAULT=${XDG_CONFIG_HOME}/docker
+
+QT_STYLE_OVERRIDE               DEFAULT=adwaita-dark
 

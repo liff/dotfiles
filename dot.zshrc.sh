@@ -12,9 +12,11 @@ command_available() {
 [ -z "$GPG_TTY" ] && export GPG_TTY=$(tty)
 
 # Configure completion
-zstyle :compinstall filename $ZDOTDIR/.zshrc
+ZSH_CACHE_HOME="${XDG_CACHE_HOME:-~/.cache}/zsh"
+mkdir -p "$ZSH_CACHE_HOME"
+zstyle :compinstall filename "$ZDOTDIR/.zshrc"
 autoload -Uz compinit
-compinit
+compinit -d "$ZSH_CACHE_HOME/zcompdump-$ZSH_VERSION"
 
 # Configure Git prompt
 export GIT_PS1_SHOWDIRTYSTATE=yes

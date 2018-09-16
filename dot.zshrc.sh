@@ -2,6 +2,20 @@ command_available() {
     type "$1" &>/dev/null
 }
 
+is_ruby_project() {
+    unsetopt nomatch
+    if [ ! -d "$1" ]; then
+        return 0
+    elif [ "$(realpath "$1")" = "$HOME" -o "$(realpath "$1")" = '/' ]; then
+        return 1
+    elif [ "$(echo "$1"/*.rb)" != "$1/*.rb" -o -f "$1"/Gemfile -o -f "$1"/*.gemspec ]; then
+        return 0
+    else
+        is_ruby_project "$1"/..
+    fi
+}
+
+autoload -Uz add-zsh-hook
 
 ## Configuration for things that use environment variables.
 
@@ -112,10 +126,23 @@ test -r /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.z
 test -r /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh \
     && . /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
 
+## Enable rbenv
+if command_available rbenv; then
+    eval "$(rbenv init -)"
+    __rbenv_prompt() {
+        if is_ruby_project .; then
+            psvar[1]="$(rbenv version-name)"
+        else
+            psvar[1]=''
+        fi
+    }
+    # __rbenv_prompt='%F{023}$(rbenv version-name)%f'
+    add-zsh-hook precmd __rbenv_prompt
+fi
 
 ## Configure prompt
 test -r /etc/profile.d/vte.sh && . /etc/profile.d/vte.sh
 setopt PROMPT_SUBST
 unset RPROMPT RPS1
-PS1='%F{blue}%(5~|%-2~/…/%3~|%4~)%f%F{magenta}$(__git_ps1 "(%s)")%(?|%F{yellow}|%F{red})⟫%f '
+PS1='%(1j|%F{131}⟨%F{130}%j%F{131}⟩%f |)%(1V|%F{039}%1v |)%F{blue}%(5~|%-2~/…/%3~|%4~)%F{magenta}$(__git_ps1 "(%s)")%(?|%F{yellow}|%F{red})⟫%f '
 

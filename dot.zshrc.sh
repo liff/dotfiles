@@ -129,20 +129,24 @@ test -r /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh \
 ## Enable rbenv
 if command_available rbenv; then
     eval "$(rbenv init -)"
-    __rbenv_prompt() {
+    __rbenv_psvar() {
         if is_ruby_project .; then
             psvar[1]="$(rbenv version-name)"
         else
             psvar[1]=''
         fi
     }
-    # __rbenv_prompt='%F{023}$(rbenv version-name)%f'
-    add-zsh-hook precmd __rbenv_prompt
+    add-zsh-hook precmd __rbenv_psvar
 fi
+
+__git_psvar() {
+    psvar[2]="$(__git_ps1 "%s")"
+}
+add-zsh-hook precmd __git_psvar
 
 ## Configure prompt
 test -r /etc/profile.d/vte.sh && . /etc/profile.d/vte.sh
 setopt PROMPT_SUBST
 unset RPROMPT RPS1
-PS1='%(1j|%F{131}⟨%F{130}%j%F{131}⟩%f |)%(1V|%F{039}%1v |)%F{blue}%(5~|%-2~/…/%3~|%4~)%F{magenta}$(__git_ps1 "(%s)")%(?|%F{yellow}|%F{red})⟫%f '
+PS1='%(1j|%F{131}⟨%F{130}%j%F{131}⟩%f |)%(1V|%F{039}%1v |)%F{blue}%(5~|%-2~/…/%3~|%4~)%(2V|%F{132}(%F{126}%2v%F{132})|)%(?|%F{yellow}|%F{red})⟫%f '
 

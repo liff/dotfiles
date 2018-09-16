@@ -107,6 +107,8 @@ fi
 
 test -r /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh \
     && . /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+test -r /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh \
+    && . /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
 
 
 ## Configure prompt

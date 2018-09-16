@@ -148,5 +148,5 @@ add-zsh-hook precmd __git_psvar
 test -r /etc/profile.d/vte.sh && . /etc/profile.d/vte.sh
 setopt PROMPT_SUBST
 unset RPROMPT RPS1
-PS1='%(1j|%F{131}⟨%F{130}%j%F{131}⟩%f |)%(1V|%F{039}%1v |)%F{blue}%(5~|%-2~/…/%3~|%4~)%(2V|%F{132}(%F{126}%2v%F{132})|)%(?|%F{yellow}|%F{red})⟫%f '
+PS1='%(1j|%F{131}⟨%F{130}%j%F{131}⟩%f |)%(1V|%F{039}%1v |)%F{069}%(5~|%-2~/…/%3~|%4~)%(2V|%F{176}(%F{164}%2v%F{176})|)%(?|%F{226}|%F{196})⟫%f '
 

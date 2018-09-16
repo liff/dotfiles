@@ -116,7 +116,6 @@ test -r /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh \
 ## Configure prompt
 test -r /etc/profile.d/vte.sh && . /etc/profile.d/vte.sh
 setopt PROMPT_SUBST
-unset RPROMPT
-RPS1='%F{blue}%(5~|%-2~/…/%3~|%4~)%f'
-PS1='%F{magenta}$(__git_ps1 "(%s)")%(?|%F{yellow}|%F{red})⟫%f '
+unset RPROMPT RPS1
+PS1='%F{blue}%(5~|%-2~/…/%3~|%4~)%f%F{magenta}$(__git_ps1 "(%s)")%(?|%F{yellow}|%F{red})⟫%f '
 

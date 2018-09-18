@@ -67,3 +67,5 @@ DOCKER_CONFIG                   DEFAULT=${XDG_CONFIG_HOME}/docker
 
 QT_STYLE_OVERRIDE               DEFAULT=adwaita-dark
 
+VSCODE_EXTENSIONS               DEFAULT=${XDG_DATA_HOME}/Code
+

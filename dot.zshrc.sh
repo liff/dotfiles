@@ -140,7 +140,8 @@ if command_available rbenv; then
 fi
 
 __git_psvar() {
-    psvar[2]="$(__git_ps1 "%s")"
+    local ps="$(__git_ps1 "%s")"
+    psvar[2]=${ps:s/%%/%/}
 }
 add-zsh-hook precmd __git_psvar
 

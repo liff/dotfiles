@@ -41,6 +41,9 @@
 [fetch]
 	prune = true
 
+[protocol]
+        version = 2
+
 [include]
 	path = config.local
 

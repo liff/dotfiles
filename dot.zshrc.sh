@@ -32,6 +32,9 @@ zstyle :compinstall filename "$ZDOTDIR/.zshrc"
 autoload -Uz compinit
 compinit -d "$ZSH_CACHE_HOME/zcompdump-$ZSH_VERSION"
 
+# Start autojump
+test -r /etc/profile.d/autojump.zsh && . /etc/profile.d/autojump.zsh
+
 # Configure Git prompt
 export GIT_PS1_SHOWDIRTYSTATE=yes
 export GIT_PS1_SHOWSTASHSTATE=yes

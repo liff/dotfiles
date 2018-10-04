@@ -30,6 +30,7 @@ ZSH_CACHE_HOME="${XDG_CACHE_HOME:-~/.cache}/zsh"
 mkdir -p "$ZSH_CACHE_HOME"
 zstyle :compinstall filename "$ZDOTDIR/.zshrc"
 autoload -Uz compinit
+fpath=(/usr/share/bloop/zsh $fpath)
 compinit -d "$ZSH_CACHE_HOME/zcompdump-$ZSH_VERSION"
 
 # Start autojump

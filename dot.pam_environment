@@ -52,6 +52,9 @@ RBENV_ROOT                      DEFAULT=${XDG_DATA_HOME}/rbenv
 
 YOURKIT_HOME                    DEFAULT=${XDG_CACHE_HOME}/yjp
 
+SBT_GLOBAL_SERVER_DIR           DEFAULT=${XDG_RUNTIME_DIR}/sbt
+SBT_OPTS                        DEFAULT="-Dsbt.ivy.home=${XDG_CACHE_HOME}/ivy -Dsbt.boot.directory=${XDG_CACHE_HOME}/sbt/boot -Dsbt.preloaded=${XDG_CACHE_HOME}/sbt/preloaded -Dsbt.global.base=${XDG_CACHE_HOME}/sbt -Dsbt.global.staging=${XDG_CACHE_HOME}/sbt/staging -Dsbt.global.zinc=${XDG_CACHE_HOME}/sbt/zinc -Dsbt.dependency.base=${XDG_CACHE_HOME}/sbt/dependency -Dsbt.global.settings=${XDG_CONFIG_HOME}/sbt/global.sbt -Dsbt.global.plugins=${XDG_CONFIG_HOME}/sbt/plugins"
+
 BUNDLE_USER_CONFIG              DEFAULT=${XDG_CONFIG_HOME}/bundle
 BUNDLE_USER_CACHE               DEFAULT=${XDG_CACHE_HOME}/bundle
 BUNDLE_USER_PLUGIN              DEFAULT=${XDG_DATA_HOME}/bundle

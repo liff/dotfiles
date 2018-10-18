@@ -23,7 +23,7 @@ GEMRC                           DEFAULT=${XDG_CONFIG_HOME}/rubygems/gemrc
 GEM_PATH                        DEFAULT=${XDG_CACHE_HOME}/rubygems/installed
 GEM_SPEC_CACHE                  DEFAULT=${XDG_CACHE_HOME}/rubygems/spec
 
-_JAVA_OPTIONS                   DEFAULT="-Djava.util.prefs.userRoot=${XDG_CONFIG_HOME}/java -Dscala.shell.histfile=${XDG_DATA_HOME}/scala_history"
+_JAVA_OPTIONS                   DEFAULT="-Djava.util.prefs.userRoot=${XDG_CONFIG_HOME}/java -Dscala.shell.histfile=${XDG_DATA_HOME}/scala_history -Dmaven.repo.local=${XDG_CACHE_HOME}/maven -Divy.settings.dir=${XDG_CONFIG_HOME}/ivy -Divy.home=${XDG_CACHE_HOME}/ivy -Divy.cache.dir=${XDG_CACHE_HOME}/ivy/cache -Dsbt.ivy.home=${XDG_CACHE_HOME}/ivy -Dsbt.boot.directory=${XDG_CACHE_HOME}/sbt/boot -Dsbt.preloaded=${XDG_CACHE_HOME}/sbt/preloaded -Dsbt.global.base=${XDG_CACHE_HOME}/sbt -Dsbt.global.staging=${XDG_CACHE_HOME}/sbt/staging -Dsbt.global.zinc=${XDG_CACHE_HOME}/sbt/zinc -Dsbt.dependency.base=${XDG_CACHE_HOME}/sbt/dependency -Dsbt.repository.config=${XDG_CONFIG_HOME}/sbt/repositories -Dsbt.global.settings=${XDG_CONFIG_HOME}/sbt/global -Dsbt.global.plugins=${XDG_CONFIG_HOME}/sbt/plugins"
 
 NODE_REPL_HISTORY               DEFAULT=${XDG_DATA_HOME}/node_repl_history
 NPM_CONFIG_USERCONFIG           DEFAULT=${XDG_CONFIG_HOME}/npm/npmrc
@@ -53,7 +53,6 @@ RBENV_ROOT                      DEFAULT=${XDG_CACHE_HOME}/rbenv
 YOURKIT_HOME                    DEFAULT=${XDG_CACHE_HOME}/yjp
 
 SBT_GLOBAL_SERVER_DIR           DEFAULT=${XDG_RUNTIME_DIR}/sbt
-SBT_OPTS                        DEFAULT="-Dsbt.ivy.home=${XDG_CACHE_HOME}/ivy -Dsbt.boot.directory=${XDG_CACHE_HOME}/sbt/boot -Dsbt.preloaded=${XDG_CACHE_HOME}/sbt/preloaded -Dsbt.global.base=${XDG_CACHE_HOME}/sbt -Dsbt.global.staging=${XDG_CACHE_HOME}/sbt/staging -Dsbt.global.zinc=${XDG_CACHE_HOME}/sbt/zinc -Dsbt.dependency.base=${XDG_CACHE_HOME}/sbt/dependency -Dsbt.repository.config=${XDG_CONFIG_HOME}/sbt/repositories -Dsbt.global.settings=${XDG_CONFIG_HOME}/sbt/global.sbt -Dsbt.global.plugins=${XDG_CONFIG_HOME}/sbt/plugins"
 
 BUNDLE_USER_CONFIG              DEFAULT=${XDG_CONFIG_HOME}/bundle
 BUNDLE_USER_CACHE               DEFAULT=${XDG_CACHE_HOME}/bundle

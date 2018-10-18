@@ -20,8 +20,8 @@ ZDOTDIR                         DEFAULT=${XDG_CONFIG_HOME}/zsh
 GNUPGHOME                       DEFAULT=${XDG_CONFIG_HOME}/gnupg
 
 GEMRC                           DEFAULT=${XDG_CONFIG_HOME}/rubygems/gemrc
-GEM_HOME                        DEFAULT=${XDG_DATA_HOME}/gem
-GEM_SPEC_CACHE                  DEFAULT=${XDG_CACHE_HOME}/gem
+GEM_PATH                        DEFAULT=${XDG_CACHE_HOME}/rubygems/installed
+GEM_SPEC_CACHE                  DEFAULT=${XDG_CACHE_HOME}/rubygems/spec
 
 _JAVA_OPTIONS                   DEFAULT="-Djava.util.prefs.userRoot=${XDG_CONFIG_HOME}/java -Dscala.shell.histfile=${XDG_DATA_HOME}/scala_history"
 
@@ -48,7 +48,7 @@ CABAL_CONFIG                    DEFAULT=${XDG_CONFIG_HOME}/cabal/config
 
 RANDFILE                        DEFAULT=${XDG_CACHE_HOME}/openssl/rnd
 
-RBENV_ROOT                      DEFAULT=${XDG_DATA_HOME}/rbenv
+RBENV_ROOT                      DEFAULT=${XDG_CACHE_HOME}/rbenv
 
 YOURKIT_HOME                    DEFAULT=${XDG_CACHE_HOME}/yjp
 

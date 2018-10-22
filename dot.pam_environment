@@ -35,7 +35,7 @@ IDEA_PROPERTIES                 DEFAULT=${XDG_CONFIG_HOME}/intellij-idea/idea.pr
 __GL_SHADER_DISK_CACHE_PATH     DEFAULT=${XDG_CACHE_HOME}/nv
 CUDA_CACHE_PATH                 DEFAULT=${XDG_CACHE_HOME}/nv
 
-STACK_ROOT                      DEFAULT=${XDG_DATA_HOME}/stack
+STACK_ROOT                      DEFAULT=${XDG_CACHE_HOME}/stack
 
 RUSTUP_HOME                     DEFAULT=${XDG_DATA_HOME}/rustup
 CARGO_HOME                      DEFAULT=${XDG_DATA_HOME}/cargo

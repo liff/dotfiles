@@ -157,3 +157,5 @@ setopt PROMPT_SUBST
 unset RPROMPT RPS1
 PS1='%(1j|%F{131}⟨%F{130}%j%F{131}⟩%f |)%(1V|%F{039}%1v |)%F{069}%(5~|%-2~/…/%3~|%4~)%(2V|%F{176}(%F{164}%2v%F{176})|)%(?|%F{226}|%F{196})⟫%f '
 
+command_available fortune && fortune
+

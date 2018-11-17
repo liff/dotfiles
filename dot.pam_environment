@@ -45,6 +45,7 @@ MYSQL_HISTFILE                  DEFAULT=${XDG_DATA_HOME}/mysql/history
 HTTPIE_CONFIG_DIR               DEFAULT=${XDG_CONFIG_HOME}/httpie
 
 CABAL_CONFIG                    DEFAULT=${XDG_CONFIG_HOME}/cabal/config
+CABAL_DIR                       DEFAULT=${XDG_CACHE_HOME}/cabal
 
 RANDFILE                        DEFAULT=${XDG_CACHE_HOME}/openssl/rnd
 

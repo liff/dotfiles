@@ -72,8 +72,8 @@ QT_STYLE_OVERRIDE               DEFAULT=adwaita-dark
 
 VSCODE_EXTENSIONS               DEFAULT=${XDG_DATA_HOME}/Code
 
-CCACHE_CONFIGPATH               DEFAULT="${XDG_CONFIG_HOME}/ccache.conf"
-CCACHE_DIR                      DEFAULT="${XDG_CACHE_HOME}/ccache"
+CCACHE_CONFIGPATH               DEFAULT=${XDG_CONFIG_HOME}/ccache.conf
+CCACHE_DIR                      DEFAULT=${XDG_CACHE_HOME}/ccache
 
-ELINKS_CONFDIR                  DEFAULT="${XDG_DATA_HOME}/elinks"
+ELINKS_CONFDIR                  DEFAULT=${XDG_DATA_HOME}/elinks
 

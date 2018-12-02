@@ -101,6 +101,9 @@ elif command_available gls && gls --version &>/dev/null; then
 elif ls --version &>/dev/null; then
     alias ls="ls --format=across --classify --size --color=auto"
     alias ll="ls --format=long --classify --size --color=auto --all"
+elif [ "$(readlink /bin/ls)" = "/bin/busybox" ]; then
+    alias ls="ls -Fs --color=auto"
+    alias ll="ls -lFsa --color=auto"
 else
     alias ls="ls -xFsG"
     alias ll="ls -lxFsGa"
@@ -145,17 +148,25 @@ if command_available rbenv; then
     add-zsh-hook precmd __rbenv_psvar
 fi
 
-__git_psvar() {
-    local ps="$(__git_ps1 "%s")"
-    psvar[2]=${ps:s/%%/%/}
-}
-add-zsh-hook precmd __git_psvar
+if command_available zigt; then
+    __git_psvar() {
+	psvar[2]="$(zigt)"
+    }
+    add-zsh-hook precmd __git_psvar
+elif type __git_ps1 &>/dev/null; then
+    __git_psvar() {
+        local ps="$(__git_ps1 "%s")"
+        psvar[2]=${ps:s/%%/%/}
+    }
+    add-zsh-hook precmd __git_psvar
+fi
 
 ## Configure prompt
 test -r /etc/profile.d/vte.sh && . /etc/profile.d/vte.sh
 setopt PROMPT_SUBST
 unset RPROMPT RPS1
-PS1='%(1j|%F{131}⟨%F{130}%j%F{131}⟩%f |)%(1V|%F{039}%1v |)%F{069}%(5~|%-2~/…/%3~|%4~)%(2V|%F{176}(%F{164}%2v%F{176})|)%(?|%F{226}|%F{196})⟫%f '
+PS1='%(1j|%F{131}⟨%F{130}%j%F{131}⟩%f |)%(1V|%F{039}%1v |)%F{069}%(5~|%-2~/…/%3~|%4~)%(2V|%F{176}(${psvar[2]}%F{176})|)%(?|%F{226}|%F{196})⟫%f '
+[ -n "$SSH_TTY" ] && PS1="%F{101}%n%f@%F{110}%m $PS1"
 
 command_available fortune && fortune
 
